@@ -46,11 +46,16 @@
     "vite-tsconfig-paths": "^6.0.5"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@fontsource/roboto": "^5.2.9",
+    "@mui/icons-material": "^7.3.7",
+    "@mui/material": "^7.3.7",
     "@react-router/node": "^7.13.0",
     "@react-router/serve": "^7.13.0",
+    "isbot": "^5",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-router": "^7.13.0",
-    "isbot": "^5"
+    "react-router": "^7.13.0"
   }
 }

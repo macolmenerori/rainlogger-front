@@ -1,0 +1,32 @@
+{
+  "palette": {
+    "mode": "dark",
+    "primary": {
+      "main": "#41c3fb",
+      "light": "#74f6ff",
+      "dark": "#0e90c8"
+    },
+    "secondary": {
+      "main": "#f4de90"
+    },
+    "error": {
+      "main": "#f44336"
+    },
+    "warning": {
+      "main": "#ff9800"
+    },
+    "info": {
+      "main": "#2a26f7"
+    },
+    "success": {
+      "main": "#66bb6a"
+    },
+    "background": {
+      "default": "#1a2332",
+      "paper": "#27303f"
+    }
+  },
+  "typography": {
+    "fontFamily": "\"Roboto\", \"Helvetica\", \"Arial\", sans-serif"
+  }
+}
