@@ -8,6 +8,12 @@ import {
 } from 'react-router';
 
 import type { Route } from './+types/root';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
+import { ThemeProvider } from '@/ui/theme/ThemeContext';
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -15,7 +21,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#1a2332" />
         <meta name="description" content="Log rainfall amounts accurately with Rainlogger." />
         <Meta />
         <Links />
@@ -32,7 +38,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <ThemeProvider>
+      <Outlet />
+    </ThemeProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
