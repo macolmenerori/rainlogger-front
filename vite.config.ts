@@ -1,9 +1,9 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { reactRouter } from '@react-router/dev/vite';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
-  plugins: [react(), viteTsconfigPaths()],
+  plugins: [reactRouter(), viteTsconfigPaths()],
   server: {
     port: 3000,
     open: false,

@@ -20,11 +20,12 @@
     "target": "ES2020",
     "strict": true,
     "baseUrl": ".",
+    "rootDirs": [".", "./.react-router/types"],
     "paths": {
       "@/*": ["app/*"] // This allows imports like: import Button from '@/components/Button'
     },
     "types": ["node", "react", "react-dom", "vite/client"]
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["app/**/*.ts", "app/**/*.tsx"]
+  "include": ["app/**/*.ts", "app/**/*.tsx", ".react-router/types/**/*.ts"]
 }
