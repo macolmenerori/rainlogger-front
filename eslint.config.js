@@ -50,7 +50,7 @@ export default tseslint.config(
             ['^@?\\w'],
             // Aliased commonly used directories.
             [
-              '^(api|assets|common|components|locales|mocks|pages|src|services|state|styles|types|utils)(/.*|$)'
+              '^(api|assets|common|components|locales|mocks|pages|app|src|services|state|styles|types|utils)(/.*|$)'
             ],
             // Side effect imports.
             ['^\\u0000'],
