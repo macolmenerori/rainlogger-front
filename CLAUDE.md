@@ -19,13 +19,13 @@ This is a React/TypeScript web application for RainLogger, a rainfall monitoring
 ## Architecture
 
 ### Core Structure
-- **Entry point**: `src/index.tsx` - React DOM rendering with StrictMode
-- **App component**: `src/App.tsx` - Root component
+- **Entry point**: `app/index.tsx` - React DOM rendering with StrictMode
+- **App component**: `app/App.tsx` - Root component
 - **Static files**: `public/` - Served at root by Vite
 
 ### Data Flow
-- Types defined in `src/types/`
-- Components in `src/components/`
+- Types defined in `app/types/`
+- Components in `app/components/`
 
 ## Technology Stack
 
@@ -38,7 +38,7 @@ This is a React/TypeScript web application for RainLogger, a rainfall monitoring
 
 ## Important Notes
 
-- Uses path aliases (`@/*` maps to `src/*`) via `vite-tsconfig-paths`
+- Uses path aliases (`@/*` maps to `app/*`) via `vite-tsconfig-paths`
 - ESLint config is in `eslint.config.js` (ES module flat config)
 - Build output directory: `dist/`
 - Vite serves `public/` directory at root in both dev and production
