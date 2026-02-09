@@ -37,8 +37,9 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
 - **Pages**: `app/pages/<PageName>/<PageName>.tsx` - each page exports a default component and a `meta()` function
 - **Components**: `app/components/` - shared UI components
   - `LanguageSwitcher/` - Material-UI language switcher component for i18n
+  - `Navbar/` - Responsive app navbar (sticky MUI AppBar); shown on all protected routes via AuthGuard. Contains clickable title (navigates to `/`), `LanguageSwitcher`, and logout button. Uses a `Drawer` for mobile (< 600px) layout
 - **UI Components**: `app/ui/` - core UI infrastructure
-  - `AuthGuard/` - Layout route component that checks authentication; shows spinner while checking, redirects to `/login` if unauthenticated, renders `<Outlet />` if authenticated
+  - `AuthGuard/` - Layout route component that checks authentication; shows spinner while checking, redirects to `/login` if unauthenticated, renders `<Navbar />` + `<Outlet />` if authenticated
   - `Layout/` - HTML shell component with dynamic lang attribute
   - `ErrorBoundary/` - Error boundary component with translated messages
   - `theme/` - MUI theme configuration
@@ -95,7 +96,7 @@ Translations are organized hierarchically:
 {
   "common": { "appName": "...", "loading": "...", "error": "..." },
   "pages": { "mainPage": { "title": "..." }, "login": { "title": "...", "emailLabel": "..." } },
-  "components": { "languageSwitcher": { "label": "..." }, "errorBoundary": { "message": "..." } }
+  "components": { "languageSwitcher": { "label": "..." }, "navbar": { "title": "...", "logout": "..." }, "errorBoundary": { "message": "..." } }
 }
 ```
 
@@ -172,7 +173,7 @@ import { tokenStorage } from '@/utils/tokenStorage';
 ### Key Notes
 - The login form uses a "Username" label but the value is sent as `email` to the API
 - `UserProvider` wraps `<Outlet />` in `root.tsx` (inside `ThemeProvider`) so all routes have access to user context
-- AuthGuard is a layout route defined in `app/routes.ts` using `layout()` — it wraps all protected routes
+- AuthGuard is a layout route defined in `app/routes.ts` using `layout()` — it wraps all protected routes and renders the `Navbar` above the page content
 - No axios dependency; uses native `fetch` with a `buildHeaders()` helper for Bearer token injection
 
 ## Environment Variables

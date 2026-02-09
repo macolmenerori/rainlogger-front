@@ -11,7 +11,7 @@ export default function LanguageSwitcher() {
   };
 
   return (
-    <FormControl size="small" sx={{ minWidth: 120 }}>
+    <FormControl size="small" sx={{ minWidth: 80 }}>
       <InputLabel id="language-select-label">{t('components.languageSwitcher.label')}</InputLabel>
       <Select
         labelId="language-select-label"
