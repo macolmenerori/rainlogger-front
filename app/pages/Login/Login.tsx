@@ -1,11 +1,16 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
 
-import { Box, Button, Card, TextField, Typography } from '@mui/material';
+import { Alert, Box, Button, Card, CircularProgress, TextField, Typography } from '@mui/material';
 
 import type { Route } from './+types/Login';
 
+import { useUser } from '@/context/UserContext/UserContext';
+import { login } from '@/services/authService';
 import i18n from '@/ui/i18n/i18n';
+import { tokenStorage } from '@/utils/tokenStorage';
 
 interface LoginFormData {
   username: string;
@@ -21,14 +26,34 @@ export function meta(_args: Route.MetaArgs) {
 
 export default function Login() {
   const { t } = useTranslation();
+  const { setUser } = useUser();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm<LoginFormData>();
 
-  const handleLogin = (data: LoginFormData) => {
-    console.log(data);
+  const handleLogin = async (data: LoginFormData) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await login({ email: data.username, password: data.password });
+
+      tokenStorage.setToken(response.token);
+      setUser(response.data.user);
+      navigate('/');
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : t('pages.login.loginCard.errors.invalidCredentials')
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -69,8 +94,10 @@ export default function Login() {
             helperText={errors.password ? t('pages.login.loginCard.errors.requiredField') : ''}
           />
 
-          <Button type="submit" variant="contained" fullWidth>
-            {t('pages.login.loginCard.loginButton')}
+          {error && <Alert severity="error">{error}</Alert>}
+
+          <Button type="submit" variant="contained" fullWidth disabled={loading}>
+            {loading ? <CircularProgress size={24} /> : t('pages.login.loginCard.loginButton')}
           </Button>
         </Box>
       </Card>
