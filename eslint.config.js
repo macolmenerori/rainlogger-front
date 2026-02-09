@@ -122,7 +122,8 @@ export default tseslint.config(
       '.env',
       '.env.*',
       '.github/**',
-      'vite.config.ts'
+      'vite.config.ts',
+      'vitest.config.ts'
     ]
   }
 );
