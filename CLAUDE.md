@@ -11,7 +11,10 @@ This is a React/TypeScript web application for RainLogger, a rainfall monitoring
 - **Development server**: `pnpm dev` (React Router dev server on port 3000)
 - **Build**: `pnpm build` (React Router build, output to `dist/`)
 - **Preview**: `pnpm preview` (preview production build locally on port 3000)
-- **Test**: `pnpm test` (Vitest - not yet configured)
+- **Test**: `pnpm test` (Vitest single run)
+- **Test (watch)**: `pnpm test:watch` (Vitest interactive watch mode)
+- **Test (UI)**: `pnpm test:ui` (Vitest browser-based UI dashboard)
+- **Test (coverage)**: `pnpm test:coverage` (Vitest with v8 coverage report)
 - **Linting**: `pnpm lint` (ESLint with auto-fix)
 - **Formatting**: `pnpm prettify` (Prettier formatting)
 - **Type checking**: `pnpm types` (React Router typegen + TypeScript compiler check)
@@ -74,7 +77,7 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
 - **Internationalization**: i18next 25, react-i18next 16, i18next-browser-languagedetector 8
 - **Environment variables**: dotenv 17
 - **Build**: Vite 7 (via `@react-router/dev/vite` plugin)
-- **Testing**: Vitest (to be configured)
+- **Testing**: Vitest 4, @testing-library/react 16, @testing-library/user-event 14, @testing-library/jest-dom 6, MSW 2 (Mock Service Worker)
 - **Linting**: ESLint 9 (flat config) with TypeScript, React, jsx-a11y, testing-library, simple-import-sort, and Prettier integration
 - **Formatting**: Prettier
 - **Package manager**: pnpm
@@ -87,7 +90,7 @@ The project uses **i18next** for internationalization with automatic language de
 - **Config file**: `app/ui/i18n/i18n.ts` - i18next initialization (imported as side effect in `root.tsx`)
 - **Translation files**: `public/locales/[lang].json` (bundled with Vite, not lazy-loaded)
 - **Supported languages**: Spanish (es - fallback), English (en)
-- **Language detection**: Browser language + localStorage persistence
+- **Language detection**: Browser language + localStorage persistence (`load: 'languageOnly'` strips region codes like `en-US` → `en`)
 - **SSR-safe**: Uses `typeof window !== 'undefined'` checks for React Router build compatibility
 
 ### Translation Structure
@@ -116,7 +119,7 @@ export default function MyComponent() {
 ```typescript
 const { i18n, t } = useTranslation();
 i18n.changeLanguage('en');  // Switch to English
-const currentLang = i18n.language;  // Get current language
+const currentLang = i18n.resolvedLanguage;  // Get current resolved language (always 'en' or 'es', never 'en-US')
 ```
 
 **In meta functions (for page titles):**
@@ -222,6 +225,69 @@ const isProd = env.isProduction;
 - Vite loads env files in priority: `.env.production.local` > `.env.production` > `.env.local` > `.env`
 - Variables are baked into the bundle at build time (not loaded at runtime)
 - `.env` is gitignored; use `.env.example` to document required variables
+
+## Testing
+
+The project uses **Vitest** with **React Testing Library** for component testing and **MSW** (Mock Service Worker) for API mocking.
+
+### Configuration
+- **Vitest config**: `vitest.config.ts` - standalone config (separate from `vite.config.ts`), uses `@vitejs/plugin-react` for JSX and `vite-tsconfig-paths` for `@/*` aliases
+- **Global setup**: `app/test/setup.ts` - jest-dom matchers, i18n initialization, MSW server lifecycle, `window.matchMedia` mock for MUI
+- **Custom render**: `app/test/utils/test-utils.tsx` - wraps components with `ThemeProvider` + `UserProvider` + `MemoryRouter`
+
+### Test File Placement
+Test files are **co-located** with the component they test:
+```
+app/components/Navbar/Navbar.tsx
+app/components/Navbar/Navbar.test.tsx
+```
+
+### MSW Mock Structure
+- **Mock data**: `app/test/mocks/mockData.json` - mock API responses (user, loginResponse, isLoggedInResponse, authErrorResponse)
+- **Handlers**: `app/test/mocks/handlers/authHandlers.ts` - MSW v2 handlers for auth endpoints
+- **Handler aggregator**: `app/test/mocks/handlers.ts` - combines all handler groups via spread
+- **Server**: `app/test/mocks/server.ts` - MSW `setupServer` instance
+
+New handler groups should be created as separate files in `app/test/mocks/handlers/` and added to the spread in `app/test/mocks/handlers.ts`.
+
+### Usage Patterns
+
+**Writing a component test:**
+```typescript
+import { i18n, render, screen, userEvent } from '@/test/utils/test-utils';
+
+import MyComponent from '@/components/MyComponent/MyComponent';
+
+describe('MyComponent', () => {
+  it('renders translated text', () => {
+    render(<MyComponent />);
+    const expectedText = i18n.t('components.myComponent.title');
+    expect(screen.getByText(expectedText)).toBeInTheDocument();
+  });
+});
+```
+
+**Overriding MSW handlers in a specific test:**
+```typescript
+import { http, HttpResponse } from 'msw';
+import { server } from '@/test/mocks/server';
+
+it('handles API error', async () => {
+  server.use(
+    http.get('http://localhost:3000/api/v1/users/isloggedin', () => {
+      return HttpResponse.json({ status: 'fail', message: 'Unauthorized' }, { status: 401 });
+    })
+  );
+  // ... test the error state
+});
+```
+
+### Key Testing Rules
+- **Always import `render`, `screen`, etc. from `@/test/utils/test-utils`** (not from `@testing-library/react` directly) to get provider wrapping
+- **Use `i18n.t('key')` for translation assertions** — never hardcode translated strings. This makes tests language-agnostic
+- **Use `userEvent.setup()` for interactions** — the ESLint rule `testing-library/prefer-user-event: 'error'` enforces this over `fireEvent`
+- **Use `screen` queries** — the ESLint rule `testing-library/prefer-screen-queries: 'error'` enforces `screen.getByX` over destructured queries
+- **MSW base URL in tests**: `http://localhost:3000/api` (defined in `vitest.config.ts` via `define`)
 
 ## Important Notes
 

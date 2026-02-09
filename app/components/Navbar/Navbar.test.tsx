@@ -1,4 +1,4 @@
-import { i18n, render, screen, userEvent } from '../utils/test-utils';
+import { i18n, render, screen, userEvent } from '@/test/utils/test-utils';
 
 import Navbar from '@/components/Navbar/Navbar';
 import { tokenStorage } from '@/utils/tokenStorage';

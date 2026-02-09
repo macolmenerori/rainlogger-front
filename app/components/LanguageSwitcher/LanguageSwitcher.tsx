@@ -16,7 +16,7 @@ export default function LanguageSwitcher() {
       <Select
         labelId="language-select-label"
         id="language-select"
-        value={i18n.language}
+        value={i18n.resolvedLanguage}
         label={t('components.languageSwitcher.label')}
         onChange={handleLanguageChange}
       >

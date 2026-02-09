@@ -26,6 +26,7 @@ i18n.use(initReactI18next).init({
     }
   },
   fallbackLng: 'es', // Spanish as default fallback
+  load: 'languageOnly', // Strip region codes (en-US → en, es-MX → es)
   lng: typeof window === 'undefined' ? 'es' : undefined, // Force Spanish during SSR/SSG
   detection: {
     order: ['localStorage', 'navigator'], // Check localStorage first, then browser language
