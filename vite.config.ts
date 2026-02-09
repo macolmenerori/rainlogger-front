@@ -1,6 +1,10 @@
 import { reactRouter } from '@react-router/dev/vite';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vite';
+import dotenv from 'dotenv';
+
+// Load environment variables from .env file
+dotenv.config();
 
 export default defineConfig({
   plugins: [reactRouter(), viteTsconfigPaths()],
@@ -16,5 +20,9 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: false
   },
-  publicDir: 'public'
+  publicDir: 'public',
+  define: {
+    'import.meta.env.BASE_URL_AUTH': JSON.stringify(process.env.BASE_URL_AUTH),
+    'import.meta.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+  }
 });
