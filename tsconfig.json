@@ -24,7 +24,7 @@
     "paths": {
       "@/*": ["app/*"] // This allows imports like: import Button from '@/components/Button'
     },
-    "types": ["node", "react", "react-dom", "vite/client"]
+    "types": ["node", "react", "react-dom", "vite/client", "vitest/globals", "@testing-library/jest-dom"]
   },
   "exclude": ["node_modules", "dist"],
   "include": ["app/**/*.ts", "app/**/*.tsx", ".react-router/types/**/*.ts"]

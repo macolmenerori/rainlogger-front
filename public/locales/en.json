@@ -35,6 +35,10 @@
       "message": "Oops!",
       "defaultError": "An unexpected error occurred.",
       "notFound": "The requested page could not be found."
+    },
+    "navbar": {
+      "title": "Rainlogger",
+      "logout": "Logout"
     }
   }
 }

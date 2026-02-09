@@ -35,6 +35,10 @@
       "message": "¡Ups!",
       "defaultError": "Ocurrió un error inesperado.",
       "notFound": "No se pudo encontrar la página solicitada."
+    },
+    "navbar": {
+      "title": "Rainlogger",
+      "logout": "Cerrar Sesión"
     }
   }
 }

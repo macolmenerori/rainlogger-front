@@ -1,0 +1,39 @@
+{
+  "user": {
+    "_id": "507f1f77bcf86cd799439011",
+    "name": "Test User",
+    "email": "test@example.com",
+    "role": "user",
+    "permissions": ["read", "write"]
+  },
+  "loginResponse": {
+    "status": "success",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjUwN2YxZjc3YmNmODZjZDc5OTQzOTAxMSIsImlhdCI6MTcwMDAwMDAwMCwiZXhwIjoxNzAwMDg2NDAwfQ.mock-signature",
+    "data": {
+      "user": {
+        "_id": "507f1f77bcf86cd799439011",
+        "name": "Test User",
+        "email": "test@example.com",
+        "role": "user",
+        "permissions": ["read", "write"]
+      }
+    }
+  },
+  "isLoggedInResponse": {
+    "status": "success",
+    "message": "User is logged in",
+    "data": {
+      "user": {
+        "_id": "507f1f77bcf86cd799439011",
+        "name": "Test User",
+        "email": "test@example.com",
+        "role": "user",
+        "permissions": ["read", "write"]
+      }
+    }
+  },
+  "authErrorResponse": {
+    "status": "fail",
+    "message": "You are not logged in"
+  }
+}

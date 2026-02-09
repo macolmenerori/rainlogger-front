@@ -3,6 +3,7 @@ import { Navigate, Outlet } from 'react-router';
 
 import { Box, CircularProgress } from '@mui/material';
 
+import Navbar from '@/components/Navbar/Navbar';
 import { useUser } from '@/context/UserContext/UserContext';
 import { isLoggedIn } from '@/services/authService';
 
@@ -39,5 +40,12 @@ export default function AuthGuard() {
     );
   }
 
-  return auth ? <Outlet /> : <Navigate to="/login" replace />;
+  return auth ? (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  ) : (
+    <Navigate to="/login" replace />
+  );
 }
