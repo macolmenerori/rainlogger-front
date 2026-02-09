@@ -45,7 +45,10 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
     - `ThemeContext.tsx` - `ThemeProvider` component wrapping MUI's `ThemeProvider` + `CssBaseline`
   - `i18n/` - Internationalization configuration
     - `i18n.ts` - i18next initialization and configuration (SSR-safe)
-- **Types**: `app/types/` (to be created)
+- **Config**: `app/config/` - Application configuration
+  - `env.ts` - Centralized environment variables with type safety
+- **Types**: `app/types/` - TypeScript type definitions
+  - `env.d.ts` - Environment variable type declarations for `import.meta.env`
 - **Static files**: `public/` - served at root
   - `locales/` - Translation files
     - `en.json` - English translations
@@ -59,6 +62,7 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
 - **Icons**: `@mui/icons-material`
 - **Font**: Roboto via `@fontsource/roboto` (weights 300, 400, 500, 700)
 - **Internationalization**: i18next 25, react-i18next 16, i18next-browser-languagedetector 8
+- **Environment variables**: dotenv 17
 - **Build**: Vite 7 (via `@react-router/dev/vite` plugin)
 - **Testing**: Vitest (to be configured)
 - **Linting**: ESLint 9 (flat config) with TypeScript, React, jsx-a11y, testing-library, simple-import-sort, and Prettier integration
@@ -119,6 +123,53 @@ export function meta(_args: Route.MetaArgs) {
 - **Language switcher component**: `app/components/LanguageSwitcher/LanguageSwitcher.tsx` - Material-UI Select dropdown
 - **Translated error boundaries**: ErrorBoundary uses i18n for error messages
 - **Direct JSON imports**: Translation files bundled with app (no HTTP requests)
+
+## Environment Variables
+
+The project uses **dotenv** to load environment variables from `.env` files, configured through Vite's build system.
+
+### Configuration
+- **Vite config**: `vite.config.ts` - loads dotenv and exposes variables via `define` option
+- **Environment file**: `.env` - gitignored, contains sensitive values (API URLs, keys)
+- **Example file**: `.env.example` - documents required environment variables for developers
+- **Type definitions**: `app/types/env.d.ts` - TypeScript types for `import.meta.env`
+- **Config module**: `app/config/env.ts` - centralized typed access to environment variables
+
+### Current Environment Variables
+```
+NODE_ENV=development
+BASE_URL_AUTH=https://polar-hamlet-58862-d62925d46f85.herokuapp.com/api
+```
+
+### Usage Patterns
+
+**Direct access (Option 1):**
+```typescript
+const apiUrl = import.meta.env.BASE_URL_AUTH;
+const nodeEnv = import.meta.env.NODE_ENV;
+```
+
+**Using config module (Option 2 - Recommended):**
+```typescript
+import { env } from '@/config/env';
+
+const apiUrl = env.baseUrlAuth;
+const isDev = env.isDevelopment;
+const isProd = env.isProduction;
+```
+
+### Key Features
+- **Type-safe**: TypeScript autocomplete and type checking for all custom environment variables
+- **Build-time injection**: Variables are statically replaced during build (via Vite's `define`)
+- **Centralized config**: `env` module provides single source of truth with camelCase naming
+- **Vite built-ins available**: `import.meta.env.DEV`, `import.meta.env.PROD`, `import.meta.env.MODE`, `import.meta.env.SSR`
+
+### Important Notes
+- Changes to `.env` files require restarting the dev server
+- For production builds, create `.env.production` with production-specific values
+- Vite loads env files in priority: `.env.production.local` > `.env.production` > `.env.local` > `.env`
+- Variables are baked into the bundle at build time (not loaded at runtime)
+- `.env` is gitignored; use `.env.example` to document required variables
 
 ## Important Notes
 
