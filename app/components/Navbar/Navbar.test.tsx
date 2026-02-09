@@ -1,6 +1,5 @@
-import { i18n, render, screen, userEvent } from '@/test/utils/test-utils';
-
 import Navbar from '@/components/Navbar/Navbar';
+import { i18n, render, screen, userEvent } from '@/test/utils/test-utils';
 import { tokenStorage } from '@/utils/tokenStorage';
 
 describe('Navbar', () => {
