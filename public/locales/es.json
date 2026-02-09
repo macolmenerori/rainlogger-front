@@ -1,0 +1,33 @@
+{
+  "common": {
+    "appName": "Rainlogger",
+    "loading": "Cargando...",
+    "error": "Ocurrió un error"
+  },
+  "pages": {
+    "mainPage": {
+      "title": "Rainlogger"
+    },
+    "newLog": {
+      "title": "Nuevo Registro"
+    },
+    "watchLogs": {
+      "title": "Ver Registros"
+    },
+    "login": {
+      "title": "Iniciar Sesión",
+      "emailLabel": "Correo Electrónico",
+      "passwordLabel": "Contraseña"
+    }
+  },
+  "components": {
+    "languageSwitcher": {
+      "label": "Idioma"
+    },
+    "errorBoundary": {
+      "message": "¡Ups!",
+      "defaultError": "Ocurrió un error inesperado.",
+      "notFound": "No se pudo encontrar la página solicitada."
+    }
+  }
+}

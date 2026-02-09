@@ -1,73 +1,24 @@
-import {
-  isRouteErrorResponse,
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration
-} from 'react-router';
+// Initialize i18n (side-effect import must be first)
+import { Outlet } from 'react-router';
 
-import type { Route } from './+types/root';
+import './ui/i18n/i18n';
+
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+import { ErrorBoundary } from '@/ui/ErrorBoundary/ErrorBoundary';
+import { Layout } from '@/ui/Layout/Layout';
 import { ThemeProvider } from '@/ui/theme/ThemeContext';
 
-export function Layout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="es">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#1a2332" />
-        <meta name="description" content="Log rainfall amounts accurately with Rainlogger." />
-        <Meta />
-        <Links />
-        <title>Rainlogger</title>
-      </head>
-      <body>
-        <noscript>You need to enable JavaScript to run this app.</noscript>
-        {children}
-        <ScrollRestoration />
-        <Scripts />
-      </body>
-    </html>
-  );
-}
+// Re-export Layout and ErrorBoundary
+export { ErrorBoundary, Layout };
 
 export default function App() {
   return (
     <ThemeProvider>
       <Outlet />
     </ThemeProvider>
-  );
-}
-
-export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = 'Oops!';
-  let details = 'An unexpected error occurred.';
-  let stack: string | undefined;
-
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? '404' : 'Error';
-    details =
-      error.status === 404 ? 'The requested page could not be found.' : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
-    stack = error.stack;
-  }
-
-  return (
-    <main>
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre>
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
   );
 }
