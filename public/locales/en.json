@@ -15,9 +15,16 @@
       "title": "Watch Logs"
     },
     "login": {
-      "title": "Login",
-      "emailLabel": "Email",
-      "passwordLabel": "Password"
+      "title": "Ranlogger",
+      "loginCard": {
+        "usernameLabel": "Username",
+        "passwordLabel": "Password",
+        "loginButton": "Login",
+        "errors": {
+          "invalidCredentials": "Wrong username or password",
+          "requiredField": "Please type at least 3 characters"
+        }
+      }
     }
   },
   "components": {

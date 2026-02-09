@@ -15,9 +15,16 @@
       "title": "Ver Registros"
     },
     "login": {
-      "title": "Iniciar Sesión",
-      "emailLabel": "Correo Electrónico",
-      "passwordLabel": "Contraseña"
+      "title": "Rainlogger",
+      "loginCard": {
+        "usernameLabel": "Usuario",
+        "passwordLabel": "Contraseña",
+        "loginButton": "Iniciar Sesión",
+        "errors": {
+          "invalidCredentials": "Usuario o contraseña incorrectos",
+          "requiredField": "Introduce al menos 3 caracteres"
+        }
+      }
     }
   },
   "components": {
