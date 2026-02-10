@@ -53,6 +53,8 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
     - `i18n.ts` - i18next initialization and configuration (SSR-safe)
 - **Context**: `app/context/` - React context providers
   - `UserContext/UserContext.tsx` - `UserProvider` component + `useUser()` hook for authenticated user state and `logout()`
+- **Hooks**: `app/hooks/` - Custom React hooks
+  - `useApi.tsx` - Generic data-fetching hook wrapping apiClient calls. Manages `data`, `loading`, `error` states with `refetch()` and `skip` support. See [useApi Hook](#useapi-hook) section
 - **Services**: `app/services/` - API service modules
   - `apiClient.ts` - Reusable API client with `apiGet`, `apiPost`, `apiPut`, `apiPatch`, `apiDelete`. Features: auto Bearer token injection, timeout (default 30s), retry with exponential backoff, `ApiError` class. See [API Client](#api-client) section
   - `authService.ts` - `login()` and `isLoggedIn()` functions using native fetch with `env.baseUrlAuth`
@@ -221,13 +223,63 @@ const result = await apiPost<ApiResponse<Data>>(env.baseUrlRainlogger, '/v1/endp
 - The `ApiError` class is exported for use in error handling (`import { ApiError } from '@/services/apiClient'`)
 
 ### RainLogger Service (`app/services/rainloggerService.ts`)
+
 - **`getRainLogs(startDate, endDate, location, realReading)`** — GET rain logs by date range with filters
 - **`getRainLogsByDay(date, location, realReading)`** — GET rain logs for a specific day
-- Both use `env.baseUrlRainlogger` as base URL, 3 retries with 2s base delay
-- Return type: `ApiResponse<RainLogResponse>` where `RainLogResponse = { rainlogs: RainLog[] }`
+- **`postRainLog(rainlog)`** — POST a new rain log (accepts `Omit<RainLog, '_id' | 'timestamp' | 'loggedBy'>`)
+- GET functions use `env.baseUrlRainlogger` as base URL, 3 retries with 2s base delay
+- Return type: `ApiResponse<{ rainlog: RainLog[] }>` for GETs, `ApiResponse<{ rainlog: RainLog }>` for POST
 
 ### API Endpoints (rainlogger-back)
+
 - **Get rain logs**: `GET {BASE_URL_RAINLOGGER}/v1/rainlogger/rainlog/filters` — query params: `dateFrom`, `dateTo`, `date`, `location`, `realReading`
+- **Create rain log**: `POST {BASE_URL_RAINLOGGER}/v1/rainlogger/rainlog` — body: `{ date, measurement, realReading, location, records? }`
+
+## useApi Hook
+
+The `useApi` hook (`app/hooks/useApi.tsx`) is a generic data-fetching hook that wraps API calls and manages loading/error states.
+
+### Interface
+
+```typescript
+function useApi<T>(
+  apiCall: () => Promise<T>,   // API call function
+  dependencies?: unknown[],     // Re-fetch when these change (default: [])
+  skip?: boolean                // Skip fetching (default: false)
+): UseApiReturn<T>;
+
+interface UseApiReturn<T> {
+  data: T | null;
+  loading: boolean;
+  error: ApiError | null;
+  refetch: () => Promise<void>;
+}
+```
+
+### Usage Pattern
+
+```typescript
+import { useApi } from '@/hooks/useApi';
+import { getRainLogs } from '@/services/rainloggerService';
+
+function MyComponent({ startDate, endDate, location }: Props) {
+  const { data, loading, error, refetch } = useApi(
+    () => getRainLogs(startDate, endDate, location, true),
+    [startDate, endDate, location]  // re-fetch when these change
+  );
+
+  if (loading) return <Spinner />;
+  if (error) return <Error message={error.message} />;
+  return <LogList logs={data?.data.rainlog} />;
+}
+```
+
+### Key Notes
+
+- Errors are always normalized to `ApiError` — non-`ApiError` exceptions are wrapped with `status: 0`
+- When `skip` changes to `true`, state is reset (`data: null`, `error: null`, `loading: false`)
+- `refetch()` can be called manually to re-trigger the API call
+- The `dependencies` array controls when the hook re-fetches (similar to `useEffect` deps)
 
 ## Environment Variables
 
