@@ -13,7 +13,14 @@
       }
     },
     "newLog": {
-      "title": "Nuevo Registro"
+      "title": "Nuevo Registro",
+      "form": {
+        "dateLabel": "Fecha",
+        "measurementLabel": "Medición (mm)",
+        "realReadingLabel": "Lectura Real",
+        "locationLabel": "Ubicación"
+      },
+      "submitButton": "Guardar"
     },
     "watchLogs": {
       "title": "Ver Registros"
@@ -43,6 +50,9 @@
     "navbar": {
       "title": "Rainlogger",
       "logout": "Cerrar Sesión"
+    },
+    "backButton": {
+      "label": "Volver"
     }
   }
 }

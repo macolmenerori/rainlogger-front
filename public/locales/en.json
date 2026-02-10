@@ -13,7 +13,14 @@
       }
     },
     "newLog": {
-      "title": "New Log"
+      "title": "New Log",
+      "form": {
+        "dateLabel": "Date",
+        "measurementLabel": "Measurement (mm)",
+        "realReadingLabel": "Real Reading",
+        "locationLabel": "Location"
+      },
+      "submitButton": "Save"
     },
     "watchLogs": {
       "title": "Watch Logs"
@@ -43,6 +50,9 @@
     "navbar": {
       "title": "Rainlogger",
       "logout": "Logout"
+    },
+    "backButton": {
+      "label": "Return"
     }
   }
 }
