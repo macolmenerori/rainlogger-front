@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -6,6 +7,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -20,6 +22,9 @@ import type { Route } from './+types/NewLog';
 
 import BackButton from '@/components/BackButton/BackButton';
 import { env } from '@/config/env';
+import { useAlert } from '@/context/AlertContext/AlertContext';
+import { ApiError } from '@/services/apiClient';
+import { postRainLog } from '@/services/rainloggerService';
 import {
   createNewLogSchema,
   type NewLogFormData
@@ -43,12 +48,15 @@ export function meta(_args: Route.MetaArgs) {
 
 export default function NewLog() {
   const { t } = useTranslation();
+  const { showAlert } = useAlert();
+  const [submitting, setSubmitting] = useState(false);
   const newLogSchema = createNewLogSchema(t);
 
   const {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors }
   } = useForm<NewLogFormData>({
     resolver: zodResolver(newLogSchema),
@@ -60,8 +68,23 @@ export default function NewLog() {
     }
   });
 
-  const newRainlogHandler = (data: NewLogFormData) => {
-    console.log('New rain log:', data);
+  const newRainlogHandler = async (data: NewLogFormData) => {
+    setSubmitting(true);
+    try {
+      await postRainLog({
+        date: data.date,
+        measurement: Number(data.measurement),
+        realReading: data.realReading,
+        location: data.location
+      });
+      showAlert(t('components.alert.newLog.success'), 'success');
+      reset();
+    } catch (err) {
+      const message = err instanceof ApiError ? err.message : t('components.alert.newLog.error');
+      showAlert(message, 'error');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -167,8 +190,8 @@ export default function NewLog() {
           </Box>
         </Box>
 
-        <Button type="submit" variant="contained" size="large" fullWidth>
-          {t('pages.newLog.submitButton')}
+        <Button type="submit" variant="contained" size="large" fullWidth disabled={submitting}>
+          {submitting ? <CircularProgress size={24} /> : t('pages.newLog.submitButton')}
         </Button>
       </Box>
     </Box>

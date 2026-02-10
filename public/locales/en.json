@@ -60,6 +60,16 @@
     },
     "backButton": {
       "label": "Return"
+    },
+    "alert": {
+      "newLog": {
+        "success": "Rain log saved successfully",
+        "error": "Failed to save rain log"
+      },
+      "generic": {
+        "error": "An unexpected error occurred",
+        "networkError": "Network error. Please check your connection"
+      }
     }
   }
 }

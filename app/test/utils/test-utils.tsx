@@ -5,15 +5,18 @@ import type { RenderOptions } from '@testing-library/react';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { AlertProvider } from '@/context/AlertContext/AlertContext';
 import { UserProvider } from '@/context/UserContext/UserContext';
 import { ThemeProvider } from '@/ui/theme/ThemeContext';
 
 function AllProviders({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
-      <UserProvider>
-        <MemoryRouter>{children}</MemoryRouter>
-      </UserProvider>
+      <AlertProvider>
+        <UserProvider>
+          <MemoryRouter>{children}</MemoryRouter>
+        </UserProvider>
+      </AlertProvider>
     </ThemeProvider>
   );
 }

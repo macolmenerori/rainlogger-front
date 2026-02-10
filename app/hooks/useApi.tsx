@@ -2,6 +2,11 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { ApiError } from '@/services/apiClient';
 
+export interface UseApiOptions {
+  skip?: boolean;
+  onError?: (error: ApiError) => void;
+}
+
 export interface UseApiReturn<T> {
   data: T | null;
   loading: boolean;
@@ -12,8 +17,11 @@ export interface UseApiReturn<T> {
 export function useApi<T>(
   apiCall: () => Promise<T>,
   dependencies: unknown[] = [],
-  skip: boolean = false
+  options: boolean | UseApiOptions = false
 ): UseApiReturn<T> {
+  const opts: UseApiOptions = typeof options === 'boolean' ? { skip: options } : options;
+  const { skip = false, onError } = opts;
+
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(!skip);
   const [error, setError] = useState<ApiError | null>(null);
@@ -31,10 +39,11 @@ export function useApi<T>(
           ? err
           : new ApiError(err instanceof Error ? err.message : String(err), 0);
       setError(apiError);
+      onError?.(apiError);
     } finally {
       setLoading(false);
     }
-  }, [apiCall, skip]);
+  }, [apiCall, skip, onError]);
 
   useEffect(() => {
     if (!skip) {

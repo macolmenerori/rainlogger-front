@@ -60,6 +60,16 @@
     },
     "backButton": {
       "label": "Volver"
+    },
+    "alert": {
+      "newLog": {
+        "success": "Registro de lluvia guardado correctamente",
+        "error": "Error al guardar el registro de lluvia"
+      },
+      "generic": {
+        "error": "Ocurrió un error inesperado",
+        "networkError": "Error de red. Por favor compruebe su conexión"
+      }
     }
   }
 }
