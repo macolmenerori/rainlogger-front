@@ -23,6 +23,7 @@ export default defineConfig({
   publicDir: 'public',
   define: {
     'import.meta.env.BASE_URL_AUTH': JSON.stringify(process.env.BASE_URL_AUTH),
+    'import.meta.env.BASE_URL_RAINLOGGER': JSON.stringify(process.env.BASE_URL_RAINLOGGER),
     'import.meta.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
   }
 });

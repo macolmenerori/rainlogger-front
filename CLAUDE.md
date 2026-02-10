@@ -54,14 +54,18 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
 - **Context**: `app/context/` - React context providers
   - `UserContext/UserContext.tsx` - `UserProvider` component + `useUser()` hook for authenticated user state and `logout()`
 - **Services**: `app/services/` - API service modules
+  - `apiClient.ts` - Reusable API client with `apiGet`, `apiPost`, `apiPut`, `apiPatch`, `apiDelete`. Features: auto Bearer token injection, timeout (default 30s), retry with exponential backoff, `ApiError` class. See [API Client](#api-client) section
   - `authService.ts` - `login()` and `isLoggedIn()` functions using native fetch with `env.baseUrlAuth`
+  - `rainloggerService.ts` - RainLogger API service using apiClient: `getRainLogs()`, `getRainLogsByDay()`
 - **Utils**: `app/utils/` - Utility modules
   - `tokenStorage.ts` - localStorage wrapper for JWT token (`rainlogger_session` key): `setToken`, `getToken`, `removeToken`, `hasToken`
 - **Config**: `app/config/` - Application configuration
   - `env.ts` - Centralized environment variables with type safety
 - **Types**: `app/types/` - TypeScript type definitions
+  - `api.ts` - Generic API response type: `ApiResponse<T>` (`{ data: T, message: string, success: boolean }`)
   - `auth.ts` - Auth domain types (`User`, `LoginRequest`, `LoginResponse`, `IsLoggedInResponse`, `AuthErrorResponse`)
   - `env.d.ts` - Environment variable type declarations for `import.meta.env`
+  - `rainlogger.ts` - RainLogger domain type: `RainLog` (`{ _id, date, records?, measurement, realReading, location, timestamp, loggedBy }`)
 - **Static files**: `public/` - served at root
   - `locales/` - Translation files
     - `en.json` - English translations
@@ -179,6 +183,52 @@ import { tokenStorage } from '@/utils/tokenStorage';
 - AuthGuard is a layout route defined in `app/routes.ts` using `layout()` — it wraps all protected routes and renders the `Navbar` above the page content
 - No axios dependency; uses native `fetch` with a `buildHeaders()` helper for Bearer token injection
 
+## API Client
+
+The project uses a centralized API client (`app/services/apiClient.ts`) for all non-auth API calls. It wraps native `fetch` with typed methods, automatic Bearer token injection, timeout, and retry logic.
+
+### Exported Methods
+- **`apiGet<T>(baseUrl, endpoint, params?, config?)`** — GET with optional query params (`Record<string, string>`)
+- **`apiPost<T>(baseUrl, endpoint, data?, config?)`** — POST with JSON body
+- **`apiPut<T>(baseUrl, endpoint, data?, config?)`** — PUT with JSON body
+- **`apiPatch<T>(baseUrl, endpoint, data?, config?)`** — PATCH with JSON body
+- **`apiDelete<T>(baseUrl, endpoint, config?)`** — DELETE
+
+### Features
+- **Auto Bearer token**: Injects `Authorization: Bearer <token>` from `tokenStorage.getToken()` on every request
+- **Timeout**: Default 30s, configurable via `config.timeout` (uses `AbortController`)
+- **Retry**: Default 0 retries. Configurable via `config.retries` and `config.retryDelay`. Exponential backoff (`retryDelay * 2^attempt`). Retries only on: 408, 429, 500, 502, 503, 504, network errors, and abort errors
+- **Error handling**: Throws `ApiError` (extends `Error`) with `status` and `data` properties for non-ok responses
+- **Custom headers**: Pass `config.headers` to merge with/override defaults (`Content-Type: application/json` + Bearer token)
+
+### Usage Pattern
+
+```typescript
+import { env } from '@/config/env';
+import type { ApiResponse } from '@/types/api';
+import { apiGet, apiPost } from '@/services/apiClient';
+
+// GET with query params and retry
+const logs = await apiGet<ApiResponse<Data>>(env.baseUrlRainlogger, '/v1/endpoint', { page: '1' }, { retries: 2 });
+
+// POST with body
+const result = await apiPost<ApiResponse<Data>>(env.baseUrlRainlogger, '/v1/endpoint', { field: 'value' });
+```
+
+### Key Notes
+- `authService.ts` does NOT use apiClient — it has its own `buildHeaders()` and special `authorizationType: bearer` header for login
+- Query params must be `Record<string, string>` — convert non-string values with `String(value)`
+- The `ApiError` class is exported for use in error handling (`import { ApiError } from '@/services/apiClient'`)
+
+### RainLogger Service (`app/services/rainloggerService.ts`)
+- **`getRainLogs(startDate, endDate, location, realReading)`** — GET rain logs by date range with filters
+- **`getRainLogsByDay(date, location, realReading)`** — GET rain logs for a specific day
+- Both use `env.baseUrlRainlogger` as base URL, 3 retries with 2s base delay
+- Return type: `ApiResponse<RainLogResponse>` where `RainLogResponse = { rainlogs: RainLog[] }`
+
+### API Endpoints (rainlogger-back)
+- **Get rain logs**: `GET {BASE_URL_RAINLOGGER}/v1/rainlogger/rainlog/filters` — query params: `dateFrom`, `dateTo`, `date`, `location`, `realReading`
+
 ## Environment Variables
 
 The project uses **dotenv** to load environment variables from `.env` files, configured through Vite's build system.
@@ -194,6 +244,7 @@ The project uses **dotenv** to load environment variables from `.env` files, con
 ```
 NODE_ENV=development
 BASE_URL_AUTH=https://polar-hamlet-58862-d62925d46f85.herokuapp.com/api
+BASE_URL_RAINLOGGER=<rainlogger API URL>
 ```
 
 ### Usage Patterns
@@ -208,7 +259,8 @@ const nodeEnv = import.meta.env.NODE_ENV;
 ```typescript
 import { env } from '@/config/env';
 
-const apiUrl = env.baseUrlAuth;
+const authUrl = env.baseUrlAuth;
+const rainloggerUrl = env.baseUrlRainlogger;
 const isDev = env.isDevelopment;
 const isProd = env.isProduction;
 ```
@@ -287,7 +339,9 @@ it('handles API error', async () => {
 - **Use `i18n.t('key')` for translation assertions** — never hardcode translated strings. This makes tests language-agnostic
 - **Use `userEvent.setup()` for interactions** — the ESLint rule `testing-library/prefer-user-event: 'error'` enforces this over `fireEvent`
 - **Use `screen` queries** — the ESLint rule `testing-library/prefer-screen-queries: 'error'` enforces `screen.getByX` over destructured queries
-- **MSW base URL in tests**: `http://localhost:3000/api` (defined in `vitest.config.ts` via `define`)
+- **MSW base URLs in tests** (defined in `vitest.config.ts` via `define`):
+  - Auth API: `http://localhost:3000/api` (`BASE_URL_AUTH`)
+  - RainLogger API: `http://localhost:3000/rainlogger-api` (`BASE_URL_RAINLOGGER`)
 
 ## Important Notes
 

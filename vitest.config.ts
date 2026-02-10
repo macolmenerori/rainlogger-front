@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react(), viteTsconfigPaths()],
   define: {
     'import.meta.env.BASE_URL_AUTH': JSON.stringify('http://localhost:3000/api'),
+    'import.meta.env.BASE_URL_RAINLOGGER': JSON.stringify('http://localhost:3000/rainlogger-api'),
     'import.meta.env.NODE_ENV': JSON.stringify('test')
   },
   test: {
