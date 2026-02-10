@@ -6,7 +6,11 @@
   },
   "pages": {
     "mainPage": {
-      "title": "Rainlogger"
+      "title": "Rainlogger",
+      "buttons": {
+        "newLog": "Nuevo Registro",
+        "watchLogs": "Ver Registros"
+      }
     },
     "newLog": {
       "title": "Nuevo Registro"
