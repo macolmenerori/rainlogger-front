@@ -39,6 +39,7 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
 ### Core Structure
 - **Pages**: `app/pages/<PageName>/<PageName>.tsx` - each page exports a default component and a `meta()` function
 - **Components**: `app/components/` - shared UI components
+  - `BackButton/` - Reusable back navigation button with `ArrowBackIosIcon`. Accepts a `to` string prop for the destination path. Uses `Link` from `react-router` for client-side navigation
   - `LanguageSwitcher/` - Material-UI language switcher component for i18n
   - `Navbar/` - Responsive app navbar (sticky MUI AppBar); shown on all protected routes via AuthGuard. Contains clickable title (navigates to `/`), `LanguageSwitcher`, and logout button. Uses a `Drawer` for mobile (< 600px) layout
 - **UI Components**: `app/ui/` - core UI infrastructure
@@ -58,7 +59,7 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
 - **Services**: `app/services/` - API service modules
   - `apiClient.ts` - Reusable API client with `apiGet`, `apiPost`, `apiPut`, `apiPatch`, `apiDelete`. Features: auto Bearer token injection, timeout (default 30s), retry with exponential backoff, `ApiError` class. See [API Client](#api-client) section
   - `authService.ts` - `login()` and `isLoggedIn()` functions using native fetch with `env.baseUrlAuth`
-  - `rainloggerService.ts` - RainLogger API service using apiClient: `getRainLogs()`, `getRainLogsByDay()`
+  - `rainloggerService.ts` - RainLogger API service using apiClient: `getRainLogs()`, `getRainLogsByDay()`, `postRainLog()`
 - **Utils**: `app/utils/` - Utility modules
   - `tokenStorage.ts` - localStorage wrapper for JWT token (`rainlogger_session` key): `setToken`, `getToken`, `removeToken`, `hasToken`
 - **Config**: `app/config/` - Application configuration
@@ -104,8 +105,8 @@ Translations are organized hierarchically:
 ```json
 {
   "common": { "appName": "...", "loading": "...", "error": "..." },
-  "pages": { "mainPage": { "title": "..." }, "login": { "title": "...", "emailLabel": "..." } },
-  "components": { "languageSwitcher": { "label": "..." }, "navbar": { "title": "...", "logout": "..." }, "errorBoundary": { "message": "..." } }
+  "pages": { "mainPage": { "title": "..." }, "newLog": { "title": "...", "form": { "dateLabel": "...", "measurementLabel": "...", "realReadingLabel": "...", "locationLabel": "..." }, "submitButton": "..." }, "login": { "title": "...", "emailLabel": "..." } },
+  "components": { "backButton": { "label": "..." }, "languageSwitcher": { "label": "..." }, "navbar": { "title": "...", "logout": "..." }, "errorBoundary": { "message": "..." } }
 }
 ```
 
@@ -297,6 +298,7 @@ The project uses **dotenv** to load environment variables from `.env` files, con
 NODE_ENV=development
 BASE_URL_AUTH=https://polar-hamlet-58862-d62925d46f85.herokuapp.com/api
 BASE_URL_RAINLOGGER=<rainlogger API URL>
+LOCATION_NAMES=Castraz,Salamanca
 ```
 
 ### Usage Patterns
@@ -315,6 +317,7 @@ const authUrl = env.baseUrlAuth;
 const rainloggerUrl = env.baseUrlRainlogger;
 const isDev = env.isDevelopment;
 const isProd = env.isProduction;
+const locations = env.locationNames;  // string[] parsed from comma-separated LOCATION_NAMES
 ```
 
 ### Key Features
@@ -394,6 +397,7 @@ it('handles API error', async () => {
 - **MSW base URLs in tests** (defined in `vitest.config.ts` via `define`):
   - Auth API: `http://localhost:3000/api` (`BASE_URL_AUTH`)
   - RainLogger API: `http://localhost:3000/rainlogger-api` (`BASE_URL_RAINLOGGER`)
+  - Location names: `Castraz,Salamanca` (`LOCATION_NAMES`)
 
 ## Important Notes
 

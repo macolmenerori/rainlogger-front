@@ -13,7 +13,21 @@
       }
     },
     "newLog": {
-      "title": "Nuevo Registro"
+      "title": "Nuevo Registro",
+      "form": {
+        "dateLabel": "Fecha",
+        "measurementLabel": "Medición (mm)",
+        "realReadingLabel": "Lectura Real",
+        "locationLabel": "Ubicación",
+        "errors": {
+          "dateRequired": "La fecha es obligatoria",
+          "measurementRequired": "La medición es obligatoria",
+          "measurementMin": "La medición debe ser 0 o superior",
+          "measurementDecimals": "Máximo 2 decimales permitidos",
+          "locationRequired": "La ubicación es obligatoria"
+        }
+      },
+      "submitButton": "Guardar"
     },
     "watchLogs": {
       "title": "Ver Registros"
@@ -43,6 +57,9 @@
     "navbar": {
       "title": "Rainlogger",
       "logout": "Cerrar Sesión"
+    },
+    "backButton": {
+      "label": "Volver"
     }
   }
 }
