@@ -18,7 +18,14 @@
         "dateLabel": "Fecha",
         "measurementLabel": "Medición (mm)",
         "realReadingLabel": "Lectura Real",
-        "locationLabel": "Ubicación"
+        "locationLabel": "Ubicación",
+        "errors": {
+          "dateRequired": "La fecha es obligatoria",
+          "measurementRequired": "La medición es obligatoria",
+          "measurementMin": "La medición debe ser 0 o superior",
+          "measurementDecimals": "Máximo 2 decimales permitidos",
+          "locationRequired": "La ubicación es obligatoria"
+        }
       },
       "submitButton": "Guardar"
     },

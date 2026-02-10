@@ -1,12 +1,14 @@
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Box,
   Button,
   Checkbox,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
@@ -18,14 +20,11 @@ import type { Route } from './+types/NewLog';
 
 import BackButton from '@/components/BackButton/BackButton';
 import { env } from '@/config/env';
+import {
+  createNewLogSchema,
+  type NewLogFormData
+} from '@/services/validations/newLogValidationSchema';
 import i18n from '@/ui/i18n/i18n';
-
-interface NewLogFormData {
-  date: string;
-  measurement: string;
-  location: string;
-  realReading: boolean;
-}
 
 function getTodayDate(): string {
   const today = new Date();
@@ -44,8 +43,15 @@ export function meta(_args: Route.MetaArgs) {
 
 export default function NewLog() {
   const { t } = useTranslation();
+  const newLogSchema = createNewLogSchema(t);
 
-  const { register, handleSubmit, control } = useForm<NewLogFormData>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors }
+  } = useForm<NewLogFormData>({
+    resolver: zodResolver(newLogSchema),
     defaultValues: {
       date: getTodayDate(),
       measurement: '',
@@ -100,6 +106,8 @@ export default function NewLog() {
             type="date"
             label={t('pages.newLog.form.dateLabel')}
             slotProps={{ inputLabel: { shrink: true } }}
+            error={!!errors.date}
+            helperText={errors.date?.message}
             {...register('date')}
           />
           <TextField
@@ -107,6 +115,8 @@ export default function NewLog() {
             type="number"
             label={t('pages.newLog.form.measurementLabel')}
             slotProps={{ inputLabel: { shrink: true }, input: { inputProps: { step: '0.01' } } }}
+            error={!!errors.measurement}
+            helperText={errors.measurement?.message}
             {...register('measurement')}
           />
         </Box>
@@ -123,7 +133,7 @@ export default function NewLog() {
             name="location"
             control={control}
             render={({ field }) => (
-              <FormControl sx={{ flex: 1 }}>
+              <FormControl sx={{ flex: 1 }} error={!!errors.location}>
                 <InputLabel id="location-select-label">
                   {t('pages.newLog.form.locationLabel')}
                 </InputLabel>
@@ -139,6 +149,7 @@ export default function NewLog() {
                     </MenuItem>
                   ))}
                 </Select>
+                {errors.location && <FormHelperText>{errors.location.message}</FormHelperText>}
               </FormControl>
             )}
           />
