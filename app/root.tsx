@@ -8,6 +8,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+import { AlertProvider } from '@/context/AlertContext/AlertContext';
 import { UserProvider } from '@/context/UserContext/UserContext';
 import { ErrorBoundary } from '@/ui/ErrorBoundary/ErrorBoundary';
 import { Layout } from '@/ui/Layout/Layout';
@@ -19,9 +20,11 @@ export { ErrorBoundary, Layout };
 export default function App() {
   return (
     <ThemeProvider>
-      <UserProvider>
-        <Outlet />
-      </UserProvider>
+      <AlertProvider>
+        <UserProvider>
+          <Outlet />
+        </UserProvider>
+      </AlertProvider>
     </ThemeProvider>
   );
 }

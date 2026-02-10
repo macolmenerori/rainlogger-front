@@ -120,4 +120,43 @@ describe('useApi', () => {
     expect(result.current.loading).toBe(false);
     expect(result.current.error).toBeNull();
   });
+
+  it('calls onError callback when API call fails', async () => {
+    const onError = vi.fn();
+    const apiError = new ApiError('Server error', 500);
+    const apiCall = vi.fn().mockRejectedValue(apiError);
+
+    const { result } = renderHook(() => useApi(apiCall, [], { onError }));
+
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
+
+    expect(onError).toHaveBeenCalledWith(apiError);
+    expect(result.current.error).toBe(apiError);
+  });
+
+  it('does not call onError when API call succeeds', async () => {
+    const onError = vi.fn();
+    const apiCall = vi.fn().mockResolvedValue({ data: 'ok' });
+
+    const { result } = renderHook(() => useApi(apiCall, [], { onError }));
+
+    await waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
+
+    expect(onError).not.toHaveBeenCalled();
+    expect(result.current.data).toEqual({ data: 'ok' });
+  });
+
+  it('accepts UseApiOptions with skip', async () => {
+    const apiCall = vi.fn().mockResolvedValue({ data: 'test' });
+
+    const { result } = renderHook(() => useApi(apiCall, [], { skip: true }));
+
+    expect(result.current.loading).toBe(false);
+    expect(result.current.data).toBeNull();
+    expect(apiCall).not.toHaveBeenCalled();
+  });
 });
