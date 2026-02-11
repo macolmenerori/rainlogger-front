@@ -35,7 +35,8 @@ i18n.use(initReactI18next).init({
   interpolation: {
     escapeValue: false // React already handles XSS protection
   },
-  debug: false // Set to true for development debugging
+  debug: false, // Set to true for development debugging
+  showSupportNotice: false // Disable i18next support notice in console
 });
 
 export default i18n;
