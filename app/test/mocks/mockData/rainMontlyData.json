@@ -1,0 +1,348 @@
+{
+  "status": "success",
+  "data": {
+    "rainlogs": [
+      {
+        "_id": "698444e22823b85ab6af9d8a",
+        "date": "2026-01-01T00:00:00.000Z",
+        "records": [],
+        "measurement": 0.5,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T08:20:11.562Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "69844ba42838b68e1818ca0a",
+        "date": "2026-01-03T00:00:00.000Z",
+        "records": [],
+        "measurement": 0.1,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T07:49:56.692Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "69844bb12838b68e1818ca0c",
+        "date": "2026-01-08T00:00:00.000Z",
+        "records": [],
+        "measurement": 1,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T07:50:09.217Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "69844bbc2838b68e1818ca0e",
+        "date": "2026-01-13T00:00:00.000Z",
+        "records": [],
+        "measurement": 5,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T07:50:20.966Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "69844bcb2838b68e1818ca10",
+        "date": "2026-01-13T00:00:00.000Z",
+        "records": [],
+        "measurement": 15,
+        "realReading": false,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T07:50:35.738Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "69844bdc2838b68e1818ca12",
+        "date": "2026-01-16T00:00:00.000Z",
+        "records": [],
+        "measurement": 4,
+        "realReading": false,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T07:50:52.728Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "69844beb2838b68e1818ca14",
+        "date": "2026-01-17T00:00:00.000Z",
+        "records": [],
+        "measurement": 5.2,
+        "realReading": false,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T07:51:07.626Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "69844bfb2838b68e1818ca16",
+        "date": "2026-01-21T00:00:00.000Z",
+        "records": [],
+        "measurement": 5.1,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T07:51:23.893Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "69844c082838b68e1818ca18",
+        "date": "2026-01-24T00:00:00.000Z",
+        "records": [],
+        "measurement": 17.5,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T07:51:36.968Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "69844c122838b68e1818ca1a",
+        "date": "2026-01-25T00:00:00.000Z",
+        "records": [],
+        "measurement": 3.5,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T07:51:46.705Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "69844c1d2838b68e1818ca1c",
+        "date": "2026-01-26T00:00:00.000Z",
+        "records": [],
+        "measurement": 1.5,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T07:51:57.734Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "69844c2a2838b68e1818ca1e",
+        "date": "2026-01-27T00:00:00.000Z",
+        "records": [],
+        "measurement": 25,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T07:52:10.041Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "69844c332838b68e1818ca20",
+        "date": "2026-01-28T00:00:00.000Z",
+        "records": [],
+        "measurement": 18,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T07:52:19.051Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "69845847f591277d9f71ba59",
+        "date": "2026-01-31T00:00:00.000Z",
+        "records": [],
+        "measurement": 27,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T08:43:51.921Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984e73b19d3376a249df3fe",
+        "date": "2026-01-02T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T18:53:47.389Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984e74619d3376a249df400",
+        "date": "2026-01-04T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T18:53:58.808Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea0e19d3376a249df402",
+        "date": "2026-01-05T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:05:50.907Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea1619d3376a249df404",
+        "date": "2026-01-06T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:05:58.011Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea1b19d3376a249df406",
+        "date": "2026-01-07T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:06:03.380Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea2219d3376a249df408",
+        "date": "2026-01-09T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:06:10.900Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea2719d3376a249df40a",
+        "date": "2026-01-10T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:06:15.941Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea2b19d3376a249df40c",
+        "date": "2026-01-11T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:06:19.974Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea3419d3376a249df40e",
+        "date": "2026-01-12T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:06:28.201Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea3b19d3376a249df410",
+        "date": "2026-01-14T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:06:35.717Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea4419d3376a249df412",
+        "date": "2026-01-18T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:06:44.686Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea4c19d3376a249df414",
+        "date": "2026-01-19T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:06:52.249Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea5419d3376a249df416",
+        "date": "2026-01-20T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:07:00.271Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea5d19d3376a249df418",
+        "date": "2026-01-22T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:07:09.297Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea6419d3376a249df41a",
+        "date": "2026-01-23T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:07:16.403Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea6f19d3376a249df41c",
+        "date": "2026-01-29T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:07:27.034Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      },
+      {
+        "_id": "6984ea7319d3376a249df41e",
+        "date": "2026-01-30T00:00:00.000Z",
+        "records": [],
+        "measurement": 0,
+        "realReading": true,
+        "location": "Castraz",
+        "timestamp": "2026-02-05T19:07:31.049Z",
+        "loggedBy": "miguelangelcolmenero@gmail.com",
+        "__v": 0
+      }
+    ]
+  }
+}
