@@ -44,6 +44,33 @@ export async function getRainLogsByDay(
   );
 }
 
+export async function getRainLogsByMonth(
+  month: number,
+  year: number,
+  location: string,
+  realReading: boolean
+): Promise<ApiResponse<{ rainlog: RainLog[] }>> {
+  const firstDay = new Date(year, month - 1, 1);
+  const lastDay = new Date(year, month, 0);
+
+  const dateFrom = firstDay.toISOString().split('T')[0];
+  const dateTo = lastDay.toISOString().split('T')[0];
+
+  const params = {
+    dateFrom,
+    dateTo,
+    location,
+    realReading: String(realReading)
+  };
+
+  return apiGet<ApiResponse<{ rainlog: RainLog[] }>>(
+    env.baseUrlRainlogger,
+    '/v1/rainlogger/rainlog/filters',
+    params,
+    { retries: 3, retryDelay: 2000 }
+  );
+}
+
 export async function postRainLog(
   rainlog: Omit<RainLog, '_id' | 'timestamp' | 'loggedBy'>
 ): Promise<ApiResponse<{ rainlog: RainLog }>> {

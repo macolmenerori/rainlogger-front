@@ -42,6 +42,7 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
   - `BackButton/` - Reusable back navigation button with `ArrowBackIosIcon`. Accepts a `to` string prop for the destination path. Uses `Link` from `react-router` for client-side navigation
   - `LanguageSwitcher/` - Material-UI language switcher component for i18n
   - `Navbar/` - Responsive app navbar (sticky MUI AppBar); shown on all protected routes via AuthGuard. Contains clickable title (navigates to `/`), `LanguageSwitcher`, and logout button. Uses a `Drawer` for mobile (< 600px) layout
+  - `RainlogFilters/` - Reusable filter bar for rain log queries. Uses react-hook-form + Zod validation. Fields: Month (Select, translated month names), Year (TextField number, min 1970), Location (Select from `env.locationNames`), Real Reading (Checkbox). Responsive layout: row on desktop, column on mobile. Accepts `onSubmit: (data: WatchLogsFormData) => void` prop
 - **UI Components**: `app/ui/` - core UI infrastructure
   - `AuthGuard/` - Layout route component that checks authentication; shows spinner while checking, redirects to `/login` if unauthenticated, renders `<Navbar />` + `<Outlet />` if authenticated
   - `Layout/` - HTML shell component with dynamic lang attribute
@@ -60,9 +61,10 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
 - **Services**: `app/services/` - API service modules
   - `apiClient.ts` - Reusable API client with `apiGet`, `apiPost`, `apiPut`, `apiPatch`, `apiDelete`. Features: auto Bearer token injection, timeout (default 30s), retry with exponential backoff, `ApiError` class. See [API Client](#api-client) section
   - `authService.ts` - `login()` and `isLoggedIn()` functions using native fetch with `env.baseUrlAuth`
-  - `rainloggerService.ts` - RainLogger API service using apiClient: `getRainLogs()`, `getRainLogsByDay()`, `postRainLog()`
+  - `rainloggerService.ts` - RainLogger API service using apiClient: `getRainLogs()`, `getRainLogsByDay()`, `getRainLogsByMonth()`, `postRainLog()`
   - `validations/` - Zod validation schemas
     - `newLogValidationSchema.ts` - `createNewLogSchema(t)` factory function (takes i18next `TFunction` for translated error messages) + `NewLogFormData` type inferred from schema
+    - `watchLogsValidationSchema.ts` - `createWatchLogsSchema(t)` factory function for WatchLogs filter validation (month required, year >= 1970, location required, realReading boolean) + `WatchLogsFormData` type
 - **Utils**: `app/utils/` - Utility modules
   - `tokenStorage.ts` - localStorage wrapper for JWT token (`rainlogger_session` key): `setToken`, `getToken`, `removeToken`, `hasToken`
 - **Config**: `app/config/` - Application configuration
@@ -109,7 +111,7 @@ Translations are organized hierarchically:
 ```json
 {
   "common": { "appName": "...", "loading": "...", "error": "..." },
-  "pages": { "mainPage": { "title": "..." }, "newLog": { "title": "...", "form": { "dateLabel": "...", "measurementLabel": "...", "realReadingLabel": "...", "locationLabel": "...", "errors": { "dateRequired": "...", "measurementRequired": "...", "measurementMin": "...", "measurementDecimals": "...", "locationRequired": "..." } }, "submitButton": "..." }, "login": { "title": "...", "emailLabel": "..." } },
+  "pages": { "mainPage": { "title": "..." }, "newLog": { "title": "...", "form": { ... }, "submitButton": "..." }, "watchLogs": { "title": "...", "filters": { "monthLabel": "...", "yearLabel": "...", "locationLabel": "...", "realReadingLabel": "...", "submitButton": "...", "months": { "1": "January", ... "12": "December" }, "errors": { "monthRequired": "...", "yearMin": "...", "locationRequired": "..." } } }, "login": { "title": "...", "loginCard": { ... } } },
   "components": { "backButton": { "label": "..." }, "languageSwitcher": { "label": "..." }, "navbar": { "title": "...", "logout": "..." }, "errorBoundary": { "message": "..." }, "alert": { "newLog": { "success": "...", "error": "..." }, "generic": { "error": "...", "networkError": "..." } } }
 }
 ```
@@ -231,6 +233,7 @@ const result = await apiPost<ApiResponse<Data>>(env.baseUrlRainlogger, '/v1/endp
 
 - **`getRainLogs(startDate, endDate, location, realReading)`** — GET rain logs by date range with filters
 - **`getRainLogsByDay(date, location, realReading)`** — GET rain logs for a specific day
+- **`getRainLogsByMonth(month, year, location, realReading)`** — GET rain logs for a specific month (computes dateFrom/dateTo from month+year)
 - **`postRainLog(rainlog)`** — POST a new rain log (accepts `Omit<RainLog, '_id' | 'timestamp' | 'loggedBy'>`)
 - GET functions use `env.baseUrlRainlogger` as base URL, 3 retries with 2s base delay
 - Return type: `ApiResponse<{ rainlog: RainLog[] }>` for GETs, `ApiResponse<{ rainlog: RainLog }>` for POST
@@ -475,3 +478,4 @@ function MyComponent() {
 - **Provider placement in `root.tsx`**: `ThemeProvider` > `AlertProvider` > `UserProvider` > `<Outlet />`. `ErrorBoundary` is intentionally outside all providers
 - **i18n initialization**: Side-effect import `'./ui/i18n/i18n'` must be first import in `root.tsx` (before React imports) to ensure i18n is ready before rendering
 - **Component structure**: `Layout`, `ErrorBoundary`, and `AuthGuard` are separate files in `app/ui/`. `Layout` and `ErrorBoundary` are re-exported from `root.tsx` for React Router framework mode. `AuthGuard` is referenced as a layout route in `app/routes.ts`
+- **Zod + react-hook-form**: Don't use `z.coerce.number()` with react-hook-form — it creates an `unknown` input type that conflicts with the form resolver. Instead, keep number fields as strings with `.refine()` for numeric validation (same pattern used in `newLogValidationSchema.ts` and `watchLogsValidationSchema.ts`)
