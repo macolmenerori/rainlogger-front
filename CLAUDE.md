@@ -112,7 +112,7 @@ Translations are organized hierarchically:
 {
   "common": { "appName": "...", "loading": "...", "error": "..." },
   "pages": { "mainPage": { "title": "..." }, "newLog": { "title": "...", "form": { ... }, "submitButton": "..." }, "watchLogs": { "title": "...", "filters": { "monthLabel": "...", "yearLabel": "...", "locationLabel": "...", "realReadingLabel": "...", "submitButton": "...", "months": { "1": "January", ... "12": "December" }, "errors": { "monthRequired": "...", "yearMin": "...", "locationRequired": "..." } } }, "login": { "title": "...", "loginCard": { ... } } },
-  "components": { "backButton": { "label": "..." }, "languageSwitcher": { "label": "..." }, "navbar": { "title": "...", "logout": "..." }, "errorBoundary": { "message": "..." }, "alert": { "newLog": { "success": "...", "error": "..." }, "generic": { "error": "...", "networkError": "..." } } }
+  "components": { "backButton": { "label": "..." }, "languageSwitcher": { "label": "..." }, "navbar": { "title": "...", "logout": "..." }, "errorBoundary": { "message": "..." }, "alert": { "newLog": { "success": "...", "error": "..." }, "watchLogs": { "error": "..." }, "generic": { "error": "...", "networkError": "..." } } }
 }
 ```
 
@@ -233,7 +233,7 @@ const result = await apiPost<ApiResponse<Data>>(env.baseUrlRainlogger, '/v1/endp
 
 - **`getRainLogs(startDate, endDate, location, realReading)`** — GET rain logs by date range with filters
 - **`getRainLogsByDay(date, location, realReading)`** — GET rain logs for a specific day
-- **`getRainLogsByMonth(month, year, location, realReading)`** — GET rain logs for a specific month (computes dateFrom/dateTo from month+year)
+- **`getRainLogsByMonth(month, year, location, realReading)`** — GET rain logs for a specific month (computes dateFrom/dateTo from month+year). `realReading` query param is only sent when `true` (omitted when `false`)
 - **`postRainLog(rainlog)`** — POST a new rain log (accepts `Omit<RainLog, '_id' | 'timestamp' | 'loggedBy'>`)
 - GET functions use `env.baseUrlRainlogger` as base URL, 3 retries with 2s base delay
 - Return type: `ApiResponse<{ rainlog: RainLog[] }>` for GETs, `ApiResponse<{ rainlog: RainLog }>` for POST
@@ -381,7 +381,9 @@ app/components/Navbar/Navbar.test.tsx
 
 ### MSW Mock Structure
 - **Mock data**: `app/test/mocks/mockData.json` - mock API responses (user, loginResponse, isLoggedInResponse, authErrorResponse)
+- **Mock data (directory)**: `app/test/mocks/mockData/` - larger mock responses as individual JSON files (e.g., `rainMontlyData.json` for monthly rain logs)
 - **Handlers**: `app/test/mocks/handlers/authHandlers.ts` - MSW v2 handlers for auth endpoints
+- **Handlers**: `app/test/mocks/handlers/rainlogHandlers.ts` - MSW v2 handlers for rainlogger endpoints (GET filters, POST rainlog)
 - **Handler aggregator**: `app/test/mocks/handlers.ts` - combines all handler groups via spread
 - **Server**: `app/test/mocks/server.ts` - MSW `setupServer` instance
 
@@ -464,7 +466,7 @@ function MyComponent() {
 - Calling `showAlert` while an alert is visible replaces it with the new one (no queue/stacking)
 - Clickaway does not dismiss the alert (standard MUI pattern); close button and auto-dismiss do
 - **Login page** keeps its own inline `Alert` component (contextual to the form, not global)
-- Translation keys: `components.alert.newLog.success`, `components.alert.newLog.error`, `components.alert.generic.error`, `components.alert.generic.networkError`
+- Translation keys: `components.alert.newLog.success`, `components.alert.newLog.error`, `components.alert.watchLogs.error`, `components.alert.generic.error`, `components.alert.generic.networkError`
 - The `useApi` hook supports an `onError` callback via `UseApiOptions` to integrate with the alert system for data-fetching scenarios
 
 ## Important Notes

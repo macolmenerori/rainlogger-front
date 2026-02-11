@@ -92,6 +92,9 @@
         "success": "Rain log saved successfully",
         "error": "Failed to save rain log"
       },
+      "watchLogs": {
+        "error": "Failed to load rain logs"
+      },
       "generic": {
         "error": "An unexpected error occurred",
         "networkError": "Network error. Please check your connection"

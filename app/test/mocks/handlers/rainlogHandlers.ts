@@ -1,6 +1,19 @@
 import { http, HttpResponse } from 'msw';
 
+import rainMontlyData from '../mockData/rainMontlyData.json';
+
 export const rainlogHandlers = [
+  // GET /v1/rainlogger/rainlog/filters
+  http.get(`${process.env.BASE_URL_RAINLOGGER}/v1/rainlogger/rainlog/filters`, ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return HttpResponse.json({ status: 'Unauthorized' }, { status: 401 });
+    }
+
+    return HttpResponse.json(rainMontlyData);
+  }),
+
   // POST /v1/rainlogger/rainlog
   http.post(`${process.env.BASE_URL_RAINLOGGER}/v1/rainlogger/rainlog`, async ({ request }) => {
     const authHeader = request.headers.get('Authorization');

@@ -92,6 +92,9 @@
         "success": "Registro de lluvia guardado correctamente",
         "error": "Error al guardar el registro de lluvia"
       },
+      "watchLogs": {
+        "error": "Error al cargar los registros de lluvia"
+      },
       "generic": {
         "error": "Ocurrió un error inesperado",
         "networkError": "Error de red. Por favor compruebe su conexión"

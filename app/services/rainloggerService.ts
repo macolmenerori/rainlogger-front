@@ -53,15 +53,20 @@ export async function getRainLogsByMonth(
   const firstDay = new Date(year, month - 1, 1);
   const lastDay = new Date(year, month, 0);
 
-  const dateFrom = firstDay.toISOString().split('T')[0];
-  const dateTo = lastDay.toISOString().split('T')[0];
+  const pad = (n: number) => String(n).padStart(2, '0');
 
-  const params = {
+  const dateFrom = `${firstDay.getFullYear()}-${pad(firstDay.getMonth() + 1)}-${pad(firstDay.getDate())}`;
+  const dateTo = `${lastDay.getFullYear()}-${pad(lastDay.getMonth() + 1)}-${pad(lastDay.getDate())}`;
+
+  const params: Record<string, string> = {
     dateFrom,
     dateTo,
-    location,
-    realReading: String(realReading)
+    location
   };
+
+  if (realReading) {
+    params.realReading = String(realReading);
+  }
 
   return apiGet<ApiResponse<{ rainlog: RainLog[] }>>(
     env.baseUrlRainlogger,
