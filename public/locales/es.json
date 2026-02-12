@@ -77,6 +77,10 @@
           "fri": "Vie",
           "sat": "Sáb"
         }
+      },
+      "graph": {
+        "tooltipDay": "Día",
+        "tooltipMeasurement": "Medición (mm)"
       }
     },
     "login": {
