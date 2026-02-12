@@ -16,6 +16,13 @@ afterEach(() => {
 // Close MSW server after all tests
 afterAll(() => server.close());
 
+// Mock ResizeObserver (required by recharts' ResponsiveContainer and MUI Select)
+global.ResizeObserver = class ResizeObserver {
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+};
+
 // Mock window.matchMedia (required by MUI's useMediaQuery hook)
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
