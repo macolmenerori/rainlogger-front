@@ -1,12 +1,18 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Box, CircularProgress, Typography } from '@mui/material';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import EqualizerIcon from '@mui/icons-material/Equalizer';
+import TableRowsIcon from '@mui/icons-material/TableRows';
+import { Box, CircularProgress, Tab, Tabs, Typography } from '@mui/material';
 
 import type { Route } from './+types/WatchLogs';
 
 import BackButton from '@/components/BackButton/BackButton';
 import RainlogFilters from '@/components/RainlogFilters/RainlogFilters';
+import CalendarTab from '@/components/ViewTabs/CalendarTab/CalendarTab';
+import GraphTab from '@/components/ViewTabs/GraphTab/GraphTab';
+import TableTab from '@/components/ViewTabs/TableTab/TableTab';
 import { useAlert } from '@/context/AlertContext/AlertContext';
 import { useApi } from '@/hooks/useApi';
 import { ApiError } from '@/services/apiClient';
@@ -25,8 +31,9 @@ export default function WatchLogs() {
   const { t } = useTranslation();
   const { showAlert } = useAlert();
   const [filterParams, setFilterParams] = useState<WatchLogsFormData | null>(null);
+  const [activeTab, setActiveTab] = useState(0);
 
-  const { loading } = useApi(
+  const { data, loading } = useApi(
     () =>
       getRainLogsByMonth(
         Number(filterParams!.month),
@@ -48,6 +55,8 @@ export default function WatchLogs() {
   const handleFilter = (data: WatchLogsFormData) => {
     setFilterParams(data);
   };
+
+  const rainLogs = data?.data.rainlogs ?? [];
 
   return (
     <Box
@@ -74,6 +83,32 @@ export default function WatchLogs() {
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
           <CircularProgress />
         </Box>
+      )}
+
+      {data && (
+        <>
+          <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ mt: 3 }}>
+            <Tab
+              icon={<TableRowsIcon />}
+              iconPosition="start"
+              label={t('pages.watchLogs.tabs.table')}
+            />
+            <Tab
+              icon={<CalendarMonthIcon />}
+              iconPosition="start"
+              label={t('pages.watchLogs.tabs.calendar')}
+            />
+            <Tab
+              icon={<EqualizerIcon />}
+              iconPosition="start"
+              label={t('pages.watchLogs.tabs.graph')}
+            />
+          </Tabs>
+
+          {activeTab === 0 && <TableTab data={rainLogs} />}
+          {activeTab === 1 && <CalendarTab data={rainLogs} />}
+          {activeTab === 2 && <GraphTab data={rainLogs} />}
+        </>
       )}
     </Box>
   );

@@ -9,7 +9,7 @@ export async function getRainLogs(
   endDate: string,
   location: string,
   realReading: boolean
-): Promise<ApiResponse<{ rainlog: RainLog[] }>> {
+): Promise<ApiResponse<{ rainlogs: RainLog[] }>> {
   const params = {
     dateFrom: startDate,
     dateTo: endDate,
@@ -17,7 +17,7 @@ export async function getRainLogs(
     realReading: String(realReading)
   };
 
-  return apiGet<ApiResponse<{ rainlog: RainLog[] }>>(
+  return apiGet<ApiResponse<{ rainlogs: RainLog[] }>>(
     env.baseUrlRainlogger,
     '/v1/rainlogger/rainlog/filters',
     params,
@@ -29,14 +29,14 @@ export async function getRainLogsByDay(
   date: string,
   location: string,
   realReading: boolean
-): Promise<ApiResponse<{ rainlog: RainLog[] }>> {
+): Promise<ApiResponse<{ rainlogs: RainLog[] }>> {
   const params = {
     date,
     location,
     realReading: String(realReading)
   };
 
-  return apiGet<ApiResponse<{ rainlog: RainLog[] }>>(
+  return apiGet<ApiResponse<{ rainlogs: RainLog[] }>>(
     env.baseUrlRainlogger,
     '/v1/rainlogger/rainlog/filters',
     params,
@@ -49,7 +49,7 @@ export async function getRainLogsByMonth(
   year: number,
   location: string,
   realReading: boolean
-): Promise<ApiResponse<{ rainlog: RainLog[] }>> {
+): Promise<ApiResponse<{ rainlogs: RainLog[] }>> {
   const firstDay = new Date(year, month - 1, 1);
   const lastDay = new Date(year, month, 0);
 
@@ -68,7 +68,7 @@ export async function getRainLogsByMonth(
     params.realReading = String(realReading);
   }
 
-  return apiGet<ApiResponse<{ rainlog: RainLog[] }>>(
+  return apiGet<ApiResponse<{ rainlogs: RainLog[] }>>(
     env.baseUrlRainlogger,
     '/v1/rainlogger/rainlog/filters',
     params,
