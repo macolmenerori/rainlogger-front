@@ -45,7 +45,7 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
   - `RainlogFilters/` - Reusable filter bar for rain log queries. Uses react-hook-form + Zod validation. Fields: Month (Select, translated month names), Year (TextField number, min 1970), Location (Select from `env.locationNames`), Real Reading (Checkbox). Responsive layout: row on desktop, column on mobile. Accepts `onSubmit: (data: WatchLogsFormData) => void` prop
   - `ViewTabs/` - Tabbed data display components for the WatchLogs page. The WatchLogs page uses MUI `Tabs` to switch between three views (Table, Calendar, Graph), each receiving `RainLog[]` as a `data` prop
     - `TableTab/` - MUI Table displaying rain logs sorted by date ascending. Columns: Date (YYYY-MM-DD), Amount (measurement), Actions (Edit/Delete `IconButton`s). Responsive: `maxWidth: 450` on `sm+`, full-width on mobile
-    - `CalendarTab/` - Placeholder component (future: calendar view of rain logs)
+    - `CalendarTab/` - Monthly calendar view using `@macolmenerori/component-library` MonthlyCalendar. Shows measurement annotations per day (summed for multiple logs on the same day). Props: `data: RainLog[]`, `month: number`, `year: number`. Dark mode with translated weekday headers
     - `GraphTab/` - Placeholder component (future: graph view of rain logs)
 - **UI Components**: `app/ui/` - core UI infrastructure
   - `AuthGuard/` - Layout route component that checks authentication; shows spinner while checking, redirects to `/login` if unauthenticated, renders `<Navbar />` + `<Outlet />` if authenticated
@@ -89,6 +89,7 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
 - **Routing**: React Router 7 (framework mode)
 - **UI Library**: Material UI 7 (`@mui/material`) with Emotion (`@emotion/react`, `@emotion/styled`)
 - **Icons**: `@mui/icons-material`
+- **Calendar**: `@macolmenerori/component-library` (MonthlyCalendar component)
 - **Font**: Roboto via `@fontsource/roboto` (weights 300, 400, 500, 700)
 - **Internationalization**: i18next 25, react-i18next 16, i18next-browser-languagedetector 8
 - **Form validation**: Zod 4, @hookform/resolvers 5 (zodResolver)

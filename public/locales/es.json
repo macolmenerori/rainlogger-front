@@ -66,6 +66,17 @@
         "date": "Fecha",
         "amount": "Cantidad",
         "actions": "Acciones"
+      },
+      "calendar": {
+        "headers": {
+          "sun": "Dom",
+          "mon": "Lun",
+          "tue": "Mar",
+          "wed": "Mié",
+          "thu": "Jue",
+          "fri": "Vie",
+          "sat": "Sáb"
+        }
       }
     },
     "login": {

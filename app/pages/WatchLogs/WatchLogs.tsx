@@ -106,7 +106,13 @@ export default function WatchLogs() {
           </Tabs>
 
           {activeTab === 0 && <TableTab data={rainLogs} />}
-          {activeTab === 1 && <CalendarTab data={rainLogs} />}
+          {activeTab === 1 && (
+            <CalendarTab
+              data={rainLogs}
+              month={Number(filterParams!.month)}
+              year={Number(filterParams!.year)}
+            />
+          )}
           {activeTab === 2 && <GraphTab data={rainLogs} />}
         </>
       )}
