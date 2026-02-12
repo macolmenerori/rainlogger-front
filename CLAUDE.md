@@ -42,6 +42,7 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
   - `BackButton/` - Reusable back navigation button with `ArrowBackIosIcon`. Accepts a `to` string prop for the destination path. Uses `Link` from `react-router` for client-side navigation
   - `LanguageSwitcher/` - Material-UI language switcher component for i18n
   - `Navbar/` - Responsive app navbar (sticky MUI AppBar); shown on all protected routes via AuthGuard. Contains clickable title (navigates to `/`), `LanguageSwitcher`, and logout button. Uses a `Drawer` for mobile (< 600px) layout
+  - `MonthlyRainfall/` - Summary card displayed between filters and tabs on the WatchLogs page. Sums all `measurement` values from `RainLog[]` data and displays the total with a `WaterDropIcon`. Props: `data: RainLog[]`. Uses MUI `Paper` with `maxWidth: 450` on `sm+`
   - `RainlogFilters/` - Reusable filter bar for rain log queries. Uses react-hook-form + Zod validation. Fields: Month (Select, translated month names), Year (TextField number, min 1970), Location (Select from `env.locationNames`), Real Reading (Checkbox). Responsive layout: row on desktop, column on mobile. Accepts `onSubmit: (data: WatchLogsFormData) => void` prop
   - `ViewTabs/` - Tabbed data display components for the WatchLogs page. The WatchLogs page uses MUI `Tabs` to switch between three views (Table, Calendar, Graph), each receiving `RainLog[]` as a `data` prop. CalendarTab and GraphTab also receive `month` and `year` props
     - `TableTab/` - MUI Table displaying rain logs sorted by date ascending. Columns: Date (YYYY-MM-DD), Amount (measurement), Actions (Edit/Delete `IconButton`s). Responsive: `maxWidth: 450` on `sm+`, full-width on mobile
@@ -117,7 +118,7 @@ Translations are organized hierarchically:
 ```json
 {
   "common": { "appName": "...", "loading": "...", "error": "..." },
-  "pages": { "mainPage": { "title": "..." }, "newLog": { "title": "...", "form": { ... }, "submitButton": "..." }, "watchLogs": { "title": "...", "filters": { ... }, "tabs": { "table": "Table", "calendar": "Calendar", "graph": "Graph" }, "table": { "date": "Date", "amount": "Amount", "actions": "Actions" }, "graph": { "tooltipDay": "Day", "tooltipMeasurement": "Measurement (mm)" } }, "login": { "title": "...", "loginCard": { ... } } },
+  "pages": { "mainPage": { "title": "..." }, "newLog": { "title": "...", "form": { ... }, "submitButton": "..." }, "watchLogs": { "title": "...", "filters": { ... }, "tabs": { "table": "Table", "calendar": "Calendar", "graph": "Graph" }, "table": { "date": "Date", "amount": "Amount", "actions": "Actions" }, "graph": { "tooltipDay": "Day", "tooltipMeasurement": "Measurement (mm)" }, "totalRainfall": { "label": "Total rainfall:" } }, "login": { "title": "...", "loginCard": { ... } } },
   "components": { "backButton": { "label": "..." }, "languageSwitcher": { "label": "..." }, "navbar": { "title": "...", "logout": "..." }, "errorBoundary": { "message": "..." }, "alert": { "newLog": { "success": "...", "error": "..." }, "watchLogs": { "error": "..." }, "generic": { "error": "...", "networkError": "..." } } }
 }
 ```
