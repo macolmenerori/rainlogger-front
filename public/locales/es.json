@@ -56,6 +56,11 @@
           "yearMin": "El año debe ser 1970 o posterior",
           "locationRequired": "La ubicación es obligatoria"
         }
+      },
+      "tabs": {
+        "table": "Tabla",
+        "calendar": "Calendario",
+        "graph": "Gráfico"
       }
     },
     "login": {
