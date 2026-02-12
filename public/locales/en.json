@@ -81,6 +81,9 @@
       "graph": {
         "tooltipDay": "Day",
         "tooltipMeasurement": "Measurement (mm)"
+      },
+      "totalRainfall": {
+        "label": "Total rainfall:"
       }
     },
     "login": {
