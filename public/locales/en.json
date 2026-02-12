@@ -61,6 +61,11 @@
         "table": "Table",
         "calendar": "Calendar",
         "graph": "Graph"
+      },
+      "table": {
+        "date": "Date",
+        "amount": "Amount",
+        "actions": "Actions"
       }
     },
     "login": {

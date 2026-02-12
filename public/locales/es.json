@@ -61,6 +61,11 @@
         "table": "Tabla",
         "calendar": "Calendario",
         "graph": "Gráfico"
+      },
+      "table": {
+        "date": "Fecha",
+        "amount": "Cantidad",
+        "actions": "Acciones"
       }
     },
     "login": {

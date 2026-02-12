@@ -56,7 +56,7 @@ export default function WatchLogs() {
     setFilterParams(data);
   };
 
-  const rainLogs = data?.data.rainlog ?? [];
+  const rainLogs = data?.data.rainlogs ?? [];
 
   return (
     <Box
