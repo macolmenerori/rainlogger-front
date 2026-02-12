@@ -9,6 +9,7 @@ import { Box, CircularProgress, Tab, Tabs, Typography } from '@mui/material';
 import type { Route } from './+types/WatchLogs';
 
 import BackButton from '@/components/BackButton/BackButton';
+import MonthlyRainfall from '@/components/MonthlyRainfall/MonthlyRainfall';
 import RainlogFilters from '@/components/RainlogFilters/RainlogFilters';
 import CalendarTab from '@/components/ViewTabs/CalendarTab/CalendarTab';
 import GraphTab from '@/components/ViewTabs/GraphTab/GraphTab';
@@ -87,6 +88,8 @@ export default function WatchLogs() {
 
       {data && (
         <>
+          <MonthlyRainfall data={rainLogs} />
+
           <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)} sx={{ mt: 3 }}>
             <Tab
               icon={<TableRowsIcon />}
