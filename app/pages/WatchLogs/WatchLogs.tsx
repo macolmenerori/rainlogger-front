@@ -113,7 +113,13 @@ export default function WatchLogs() {
               year={Number(filterParams!.year)}
             />
           )}
-          {activeTab === 2 && <GraphTab data={rainLogs} />}
+          {activeTab === 2 && (
+            <GraphTab
+              data={rainLogs}
+              month={Number(filterParams!.month)}
+              year={Number(filterParams!.year)}
+            />
+          )}
         </>
       )}
     </Box>
