@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" height="128" width="128">
+  
+  <path fill="#6B7280" d="M 84 38 
+           Q 96 38, 104 50 
+           Q 116 50, 116 62 
+           Q 116 74, 104 74 
+           L 24 74 
+           Q 12 74, 12 62 
+           Q 12 50, 24 50 
+           Q 32 38, 44 38 
+           Q 56 26, 68 26 
+           Q 80 26, 84 38 Z"></path>
+  
+  
+  <path fill="#3B82F6" d="M 32 74 L 28 102 Q 28 106, 32 106 Q 36 106, 36 102 Z"></path>
+  <path fill="#3B82F6" d="M 52 74 L 48 106 Q 48 110, 52 110 Q 56 110, 56 106 Z"></path>
+  <path fill="#3B82F6" d="M 72 74 L 68 98 Q 68 102, 72 102 Q 76 102, 76 98 Z"></path>
+  <path fill="#3B82F6" d="M 92 74 L 88 104 Q 88 108, 92 108 Q 96 108, 96 104 Z"></path>
+  
+  
+  <rect stroke-width="6" stroke="#60A5FA" fill="none" rx="4" height="38" width="32" y="80" x="48"></rect>
+  <rect fill="#3B82F6" height="20" width="28" y="96" x="50"></rect>
+  <rect fill="#6B7280" rx="4" height="8" width="48" y="114" x="40"></rect>
+  
+  <line stroke-width="2" stroke="#93C5FD" y2="102" x2="78" y1="102" x1="50"></line>
+  <line stroke-width="2" stroke="#93C5FD" y2="90" x2="78" y1="90" x1="50"></line>
+</svg>
