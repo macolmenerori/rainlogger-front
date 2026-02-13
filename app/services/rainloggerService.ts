@@ -1,4 +1,4 @@
-import { apiGet, apiPost } from './apiClient';
+import { apiGet, apiPost, apiPut } from './apiClient';
 
 import { env } from '@/config/env';
 import type { ApiResponse } from '@/types/api';
@@ -82,6 +82,14 @@ export async function postRainLog(
   return apiPost<ApiResponse<{ rainlog: RainLog }>>(
     env.baseUrlRainlogger,
     '/v1/rainlogger/rainlog',
+    rainlog
+  );
+}
+
+export async function updateRainLog(rainlog: RainLog): Promise<ApiResponse<{ rainlog: RainLog }>> {
+  return apiPut<ApiResponse<{ rainlog: RainLog }>>(
+    env.baseUrlRainlogger,
+    `/v1/rainlogger/rainlog`,
     rainlog
   );
 }

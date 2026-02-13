@@ -19,9 +19,10 @@ import type { RainLog } from '@/types/rainlogger';
 
 interface TableTabProps {
   data: RainLog[];
+  onDataChange?: () => Promise<void>;
 }
 
-export default function TableTab({ data }: TableTabProps) {
+export default function TableTab({ data, onDataChange }: TableTabProps) {
   const { t } = useTranslation();
   const [editingLog, setEditingLog] = useState<RainLog | null>(null);
 
@@ -62,7 +63,12 @@ export default function TableTab({ data }: TableTabProps) {
       </TableContainer>
 
       {editingLog && (
-        <UpdateLogModal open={!!editingLog} log={editingLog} onClose={() => setEditingLog(null)} />
+        <UpdateLogModal
+          open={!!editingLog}
+          log={editingLog}
+          onClose={() => setEditingLog(null)}
+          onDataChange={onDataChange}
+        />
       )}
     </>
   );

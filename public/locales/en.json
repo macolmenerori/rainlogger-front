@@ -132,6 +132,10 @@
         "success": "Rain log saved successfully",
         "error": "Failed to save rain log"
       },
+      "updateLog": {
+        "success": "Rain log updated successfully",
+        "error": "Failed to update rain log"
+      },
       "watchLogs": {
         "error": "Failed to load rain logs"
       },

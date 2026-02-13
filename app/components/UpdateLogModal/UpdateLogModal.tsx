@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -7,6 +8,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -16,6 +18,9 @@ import {
   TextField
 } from '@mui/material';
 
+import { useAlert } from '@/context/AlertContext/AlertContext';
+import { ApiError } from '@/services/apiClient';
+import { updateRainLog } from '@/services/rainloggerService';
 import {
   createUpdateLogSchema,
   type UpdateLogFormData
@@ -26,10 +31,13 @@ interface UpdateLogModalProps {
   open: boolean;
   log: RainLog;
   onClose: () => void;
+  onDataChange?: () => Promise<void>;
 }
 
-export default function UpdateLogModal({ open, log, onClose }: UpdateLogModalProps) {
+export default function UpdateLogModal({ open, log, onClose, onDataChange }: UpdateLogModalProps) {
   const { t } = useTranslation();
+  const { showAlert } = useAlert();
+  const [submitting, setSubmitting] = useState(false);
   const updateLogSchema = createUpdateLogSchema(t);
 
   const {
@@ -46,13 +54,28 @@ export default function UpdateLogModal({ open, log, onClose }: UpdateLogModalPro
     mode: 'onChange'
   });
 
-  const onSubmit = (data: UpdateLogFormData) => {
-    console.log('Update:', log._id, data);
-    onClose();
+  const onSubmit = async (data: UpdateLogFormData) => {
+    setSubmitting(true);
+    try {
+      await updateRainLog({
+        ...log,
+        date: log.date.slice(0, 10),
+        measurement: Number(data.measurement),
+        realReading: data.realReading
+      });
+      showAlert(t('components.alert.updateLog.success'), 'success');
+      await onDataChange?.();
+      onClose();
+    } catch (err) {
+      const message = err instanceof ApiError ? err.message : t('components.alert.updateLog.error');
+      showAlert(message, 'error');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+    <Dialog open={open} onClose={submitting ? undefined : onClose} fullWidth maxWidth="sm">
       <DialogTitle
         sx={{
           display: 'flex',
@@ -61,7 +84,7 @@ export default function UpdateLogModal({ open, log, onClose }: UpdateLogModalPro
         }}
       >
         {t('components.updateLogModal.title')}
-        <IconButton aria-label="close" onClick={onClose} size="small">
+        <IconButton aria-label="close" onClick={onClose} size="small" disabled={submitting}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
@@ -89,6 +112,7 @@ export default function UpdateLogModal({ open, log, onClose }: UpdateLogModalPro
             }}
             error={!!errors.measurement}
             helperText={errors.measurement?.message}
+            disabled={submitting}
             {...register('measurement')}
           />
 
@@ -100,6 +124,7 @@ export default function UpdateLogModal({ open, log, onClose }: UpdateLogModalPro
                 <FormControlLabel
                   control={<Checkbox checked={value} onChange={onChange} {...field} />}
                   label={t('components.updateLogModal.realReadingLabel')}
+                  disabled={submitting}
                 />
               )}
             />
@@ -108,14 +133,20 @@ export default function UpdateLogModal({ open, log, onClose }: UpdateLogModalPro
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose}>{t('components.updateLogModal.cancelButton')}</Button>
+        <Button onClick={onClose} disabled={submitting}>
+          {t('components.updateLogModal.cancelButton')}
+        </Button>
         <Button
           type="submit"
           form="update-log-form"
           variant="contained"
-          disabled={!isDirty || !isValid}
+          disabled={!isDirty || !isValid || submitting}
         >
-          {t('components.updateLogModal.updateButton')}
+          {submitting ? (
+            <CircularProgress size={24} />
+          ) : (
+            t('components.updateLogModal.updateButton')
+          )}
         </Button>
       </DialogActions>
     </Dialog>

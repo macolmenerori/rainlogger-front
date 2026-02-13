@@ -132,6 +132,10 @@
         "success": "Registro de lluvia guardado correctamente",
         "error": "Error al guardar el registro de lluvia"
       },
+      "updateLog": {
+        "success": "Registro de lluvia actualizado correctamente",
+        "error": "Error al actualizar el registro de lluvia"
+      },
       "watchLogs": {
         "error": "Error al cargar los registros de lluvia"
       },
