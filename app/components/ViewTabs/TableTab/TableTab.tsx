@@ -14,6 +14,7 @@ import {
   TableRow
 } from '@mui/material';
 
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal/ConfirmDeleteModal';
 import UpdateLogModal from '@/components/UpdateLogModal/UpdateLogModal';
 import type { RainLog } from '@/types/rainlogger';
 
@@ -25,12 +26,9 @@ interface TableTabProps {
 export default function TableTab({ data, onDataChange }: TableTabProps) {
   const { t } = useTranslation();
   const [editingLog, setEditingLog] = useState<RainLog | null>(null);
+  const [deletingLog, setDeletingLog] = useState<RainLog | null>(null);
 
   const sortedData = useMemo(() => [...data].sort((a, b) => a.date.localeCompare(b.date)), [data]);
-
-  const handleDelete = (id: string) => {
-    console.log('Delete:', id);
-  };
 
   return (
     <>
@@ -52,7 +50,7 @@ export default function TableTab({ data, onDataChange }: TableTabProps) {
                   <IconButton size="small" onClick={() => setEditingLog(log)}>
                     <EditIcon />
                   </IconButton>
-                  <IconButton size="small" onClick={() => handleDelete(log._id)}>
+                  <IconButton size="small" onClick={() => setDeletingLog(log)}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -67,6 +65,15 @@ export default function TableTab({ data, onDataChange }: TableTabProps) {
           open={!!editingLog}
           log={editingLog}
           onClose={() => setEditingLog(null)}
+          onDataChange={onDataChange}
+        />
+      )}
+
+      {deletingLog && (
+        <ConfirmDeleteModal
+          open={!!deletingLog}
+          log={deletingLog}
+          onClose={() => setDeletingLog(null)}
           onDataChange={onDataChange}
         />
       )}

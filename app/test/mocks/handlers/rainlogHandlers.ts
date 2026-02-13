@@ -67,5 +67,19 @@ export const rainlogHandlers = [
       message: 'Rainlog updated successfully',
       data: { rainlog: body }
     });
-  })
+  }),
+
+  // DELETE /v1/rainlogger/rainlog/delete/:id
+  http.delete(
+    `${process.env.BASE_URL_RAINLOGGER}/v1/rainlogger/rainlog/delete/:id`,
+    ({ request }) => {
+      const authHeader = request.headers.get('Authorization');
+
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return HttpResponse.json({ status: 'Unauthorized' }, { status: 401 });
+      }
+
+      return new HttpResponse(null, { status: 204 });
+    }
+  )
 ];

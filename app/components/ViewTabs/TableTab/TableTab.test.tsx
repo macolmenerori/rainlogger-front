@@ -1,5 +1,3 @@
-import { vi } from 'vitest';
-
 import TableTab from './TableTab';
 
 import rainMonthlyData from '@/test/mocks/mockData/rainMontlyData.json';
@@ -76,16 +74,6 @@ describe('TableTab', () => {
   });
 
   describe('Actions', () => {
-    let consoleSpy: ReturnType<typeof vi.spyOn>;
-
-    beforeEach(() => {
-      consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    });
-
-    afterEach(() => {
-      consoleSpy.mockRestore();
-    });
-
     it('opens update modal on edit button click', async () => {
       const user = userEvent.setup();
       render(<TableTab data={mockData} />);
@@ -99,7 +87,7 @@ describe('TableTab', () => {
       expect(screen.getByText(i18n.t('components.updateLogModal.title'))).toBeInTheDocument();
     });
 
-    it('logs delete with correct id on delete button click', async () => {
+    it('opens confirm delete modal on delete button click', async () => {
       const user = userEvent.setup();
       render(<TableTab data={mockData} />);
 
@@ -108,7 +96,12 @@ describe('TableTab', () => {
       const buttons = within(firstDataRow).getAllByRole('button');
       await user.click(buttons[1]); // Delete is the second button
 
-      expect(consoleSpy).toHaveBeenCalledWith('Delete:', '698444e22823b85ab6af9d8a');
+      const day = mockData[0].date.slice(8, 10);
+      const monthNumber = String(Number(mockData[0].date.slice(5, 7)));
+      const month = i18n.t(`pages.watchLogs.filters.months.${monthNumber}`);
+      expect(
+        screen.getByText(i18n.t('components.confirmDeleteModal.message', { day, month }))
+      ).toBeInTheDocument();
     });
   });
 });

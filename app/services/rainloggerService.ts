@@ -1,4 +1,4 @@
-import { apiGet, apiPost, apiPut } from './apiClient';
+import { apiDelete, apiGet, apiPost, apiPut } from './apiClient';
 
 import { env } from '@/config/env';
 import type { ApiResponse } from '@/types/api';
@@ -92,4 +92,8 @@ export async function updateRainLog(rainlog: RainLog): Promise<ApiResponse<{ rai
     `/v1/rainlogger/rainlog`,
     rainlog
   );
+}
+
+export async function deleteRainLog(id: string): Promise<void> {
+  return apiDelete(env.baseUrlRainlogger, `/v1/rainlogger/rainlog/delete/${id}`);
 }

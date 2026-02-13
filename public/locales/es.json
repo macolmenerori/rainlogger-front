@@ -115,6 +115,11 @@
     "backButton": {
       "label": "Volver"
     },
+    "confirmDeleteModal": {
+      "message": "¿Desea eliminar el registro del {{day}} - {{month}}?",
+      "cancelButton": "Cancelar",
+      "deleteButton": "Eliminar"
+    },
     "updateLogModal": {
       "title": "Actualizar Registro",
       "measurementLabel": "Cantidad (mm)",
@@ -135,6 +140,10 @@
       "updateLog": {
         "success": "Registro de lluvia actualizado correctamente",
         "error": "Error al actualizar el registro de lluvia"
+      },
+      "deleteLog": {
+        "success": "Registro de lluvia eliminado correctamente",
+        "error": "Error al eliminar el registro de lluvia"
       },
       "watchLogs": {
         "error": "Error al cargar los registros de lluvia"
