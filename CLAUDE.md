@@ -391,8 +391,7 @@ app/components/Navbar/Navbar.test.tsx
 ```
 
 ### MSW Mock Structure
-- **Mock data**: `app/test/mocks/mockData.json` - mock API responses (user, loginResponse, isLoggedInResponse, authErrorResponse)
-- **Mock data (directory)**: `app/test/mocks/mockData/` - larger mock responses as individual JSON files (e.g., `rainMontlyData.json` for monthly rain logs)
+- **Mock data (directory)**: `app/test/mocks/mockData/` - mock response JSON files (e.g., `authData.json` for auth responses, `rainMontlyData.json` for monthly rain logs)
 - **Handlers**: `app/test/mocks/handlers/authHandlers.ts` - MSW v2 handlers for auth endpoints
 - **Handlers**: `app/test/mocks/handlers/rainlogHandlers.ts` - MSW v2 handlers for rainlogger endpoints (GET filters, POST rainlog, PUT rainlog)
 - **Handler aggregator**: `app/test/mocks/handlers.ts` - combines all handler groups via spread

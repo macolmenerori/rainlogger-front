@@ -1,6 +1,6 @@
 import { http, HttpResponse } from 'msw';
 
-import mockData from '../mockData.json';
+import mockData from '../mockData/authData.json';
 
 const BASE_URL = 'http://localhost:3000/api';
 
