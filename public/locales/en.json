@@ -115,6 +115,11 @@
     "backButton": {
       "label": "Return"
     },
+    "confirmDeleteModal": {
+      "message": "Do you want to delete the {{day}} - {{month}} log?",
+      "cancelButton": "Cancel",
+      "deleteButton": "Delete"
+    },
     "updateLogModal": {
       "title": "Update Log",
       "measurementLabel": "Amount (mm)",
@@ -135,6 +140,10 @@
       "updateLog": {
         "success": "Rain log updated successfully",
         "error": "Failed to update rain log"
+      },
+      "deleteLog": {
+        "success": "Rain log deleted successfully",
+        "error": "Failed to delete rain log"
       },
       "watchLogs": {
         "error": "Failed to load rain logs"
