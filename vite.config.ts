@@ -1,13 +1,31 @@
 import { reactRouter } from '@react-router/dev/vite';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file
 dotenv.config();
 
 export default defineConfig({
-  plugins: [reactRouter(), viteTsconfigPaths()],
+  plugins: [
+    reactRouter(),
+    viteTsconfigPaths(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      injectRegister: false,
+      manifest: false,
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
+        navigateFallback: '/index.html',
+        navigateFallbackDenylist: [/^\/api/, /^\/rainlogger-api/]
+      },
+      devOptions: {
+        enabled: true,
+        type: 'module'
+      }
+    })
+  ],
   server: {
     port: 3000,
     open: false,

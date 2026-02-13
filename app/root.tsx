@@ -8,6 +8,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
+import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration/ServiceWorkerRegistration';
 import { AlertProvider } from '@/context/AlertContext/AlertContext';
 import { UserProvider } from '@/context/UserContext/UserContext';
 import { ErrorBoundary } from '@/ui/ErrorBoundary/ErrorBoundary';
@@ -22,6 +23,7 @@ export default function App() {
     <ThemeProvider>
       <AlertProvider>
         <UserProvider>
+          <ServiceWorkerRegistration />
           <Outlet />
         </UserProvider>
       </AlertProvider>
