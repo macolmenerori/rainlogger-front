@@ -34,7 +34,7 @@ export default function WatchLogs() {
   const [filterParams, setFilterParams] = useState<WatchLogsFormData | null>(null);
   const [activeTab, setActiveTab] = useState(0);
 
-  const { data, loading } = useApi(
+  const { data, loading, refetch } = useApi(
     () =>
       getRainLogsByMonth(
         Number(filterParams!.month),
@@ -108,7 +108,7 @@ export default function WatchLogs() {
             />
           </Tabs>
 
-          {activeTab === 0 && <TableTab data={rainLogs} />}
+          {activeTab === 0 && <TableTab data={rainLogs} onDataChange={refetch} />}
           {activeTab === 1 && (
             <CalendarTab
               data={rainLogs}

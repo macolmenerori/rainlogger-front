@@ -45,9 +45,10 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
   - `MonthlyRainfall/` - Summary card displayed between filters and tabs on the WatchLogs page. Sums all `measurement` values from `RainLog[]` data and displays the total with a `WaterDropIcon`. Props: `data: RainLog[]`. Uses MUI `Paper` with `maxWidth: 450` on `sm+`
   - `RainlogFilters/` - Reusable filter bar for rain log queries. Uses react-hook-form + Zod validation. Fields: Month (Select, translated month names), Year (TextField number, min 1970), Location (Select from `env.locationNames`), Real Reading (Checkbox). Responsive layout: row on desktop, column on mobile. Accepts `onSubmit: (data: WatchLogsFormData) => void` prop
   - `ViewTabs/` - Tabbed data display components for the WatchLogs page. The WatchLogs page uses MUI `Tabs` to switch between three views (Table, Calendar, Graph), each receiving `RainLog[]` as a `data` prop. CalendarTab and GraphTab also receive `month` and `year` props
-    - `TableTab/` - MUI Table displaying rain logs sorted by date ascending. Columns: Date (YYYY-MM-DD), Amount (measurement), Actions (Edit/Delete `IconButton`s). Responsive: `maxWidth: 450` on `sm+`, full-width on mobile
+    - `TableTab/` - MUI Table displaying rain logs sorted by date ascending. Columns: Date (YYYY-MM-DD), Amount (measurement), Actions (Edit/Delete `IconButton`s). Responsive: `maxWidth: 450` on `sm+`, full-width on mobile. Edit button opens `UpdateLogModal`. Props: `data: RainLog[]`, `onDataChange?: () => Promise<void>` (called after successful update to refresh data)
     - `CalendarTab/` - Monthly calendar view using `@macolmenerori/component-library` MonthlyCalendar. Shows measurement annotations per day (summed for multiple logs on the same day). Props: `data: RainLog[]`, `month: number`, `year: number`. Dark mode with translated weekday headers
     - `GraphTab/` - Bar chart view using recharts. Displays one bar per day of the month with daily rainfall measurements (summed for multiple logs on the same day). Days without data show as zero-height bars. Props: `data: RainLog[]`, `month: number`, `year: number`. Uses `ResponsiveContainer` for responsive sizing. Dark-themed: `#41c3fb` bars (primary.main), `background.paper` container, custom tooltip with translated labels. Container: `maxWidth: 700` on `sm+`
+  - `UpdateLogModal/` - MUI Dialog for editing a rain log's `measurement` and `realReading` fields. Uses react-hook-form + Zod validation (`updateLogValidationSchema`), calls `updateRainLog()` from rainloggerService. Features: prefilled form from `log` prop, update button disabled until form is dirty and valid, loading spinner during submission, success/error alerts via `useAlert()`, `onDataChange` callback to trigger parent data refresh. Props: `open: boolean`, `log: RainLog`, `onClose: () => void`, `onDataChange?: () => Promise<void>`
 - **UI Components**: `app/ui/` - core UI infrastructure
   - `AuthGuard/` - Layout route component that checks authentication; shows spinner while checking, redirects to `/login` if unauthenticated, renders `<Navbar />` + `<Outlet />` if authenticated
   - `Layout/` - HTML shell component with dynamic lang attribute
@@ -66,10 +67,11 @@ This project uses **React Router v7 in framework mode** (SPA, no SSR).
 - **Services**: `app/services/` - API service modules
   - `apiClient.ts` - Reusable API client with `apiGet`, `apiPost`, `apiPut`, `apiPatch`, `apiDelete`. Features: auto Bearer token injection, timeout (default 30s), retry with exponential backoff, `ApiError` class. See [API Client](#api-client) section
   - `authService.ts` - `login()` and `isLoggedIn()` functions using native fetch with `env.baseUrlAuth`
-  - `rainloggerService.ts` - RainLogger API service using apiClient: `getRainLogs()`, `getRainLogsByDay()`, `getRainLogsByMonth()`, `postRainLog()`
+  - `rainloggerService.ts` - RainLogger API service using apiClient: `getRainLogs()`, `getRainLogsByDay()`, `getRainLogsByMonth()`, `postRainLog()`, `updateRainLog()`
   - `validations/` - Zod validation schemas
     - `newLogValidationSchema.ts` - `createNewLogSchema(t)` factory function (takes i18next `TFunction` for translated error messages) + `NewLogFormData` type inferred from schema
     - `watchLogsValidationSchema.ts` - `createWatchLogsSchema(t)` factory function for WatchLogs filter validation (month required, year >= 1970, location required, realReading boolean) + `WatchLogsFormData` type
+    - `updateLogValidationSchema.ts` - `createUpdateLogSchema(t)` factory function for UpdateLogModal validation (measurement: string, required, >= 0, max 2 decimals; realReading: boolean) + `UpdateLogFormData` type
 - **Utils**: `app/utils/` - Utility modules
   - `tokenStorage.ts` - localStorage wrapper for JWT token (`rainlogger_session` key): `setToken`, `getToken`, `removeToken`, `hasToken`
 - **Config**: `app/config/` - Application configuration
@@ -119,7 +121,7 @@ Translations are organized hierarchically:
 {
   "common": { "appName": "...", "loading": "...", "error": "..." },
   "pages": { "mainPage": { "title": "..." }, "newLog": { "title": "...", "form": { ... }, "submitButton": "..." }, "watchLogs": { "title": "...", "filters": { ... }, "tabs": { "table": "Table", "calendar": "Calendar", "graph": "Graph" }, "table": { "date": "Date", "amount": "Amount", "actions": "Actions" }, "graph": { "tooltipDay": "Day", "tooltipMeasurement": "Measurement (mm)" }, "totalRainfall": { "label": "Total rainfall:" } }, "login": { "title": "...", "loginCard": { ... } } },
-  "components": { "backButton": { "label": "..." }, "languageSwitcher": { "label": "..." }, "navbar": { "title": "...", "logout": "..." }, "errorBoundary": { "message": "..." }, "alert": { "newLog": { "success": "...", "error": "..." }, "watchLogs": { "error": "..." }, "generic": { "error": "...", "networkError": "..." } } }
+  "components": { "backButton": { "label": "..." }, "languageSwitcher": { "label": "..." }, "navbar": { "title": "...", "logout": "..." }, "errorBoundary": { "message": "..." }, "updateLogModal": { "title": "...", "measurementLabel": "...", "realReadingLabel": "...", "cancelButton": "...", "updateButton": "...", "errors": { "measurementRequired": "...", "measurementMin": "...", "measurementDecimals": "..." } }, "alert": { "newLog": { "success": "...", "error": "..." }, "updateLog": { "success": "...", "error": "..." }, "watchLogs": { "error": "..." }, "generic": { "error": "...", "networkError": "..." } } }
 }
 ```
 
@@ -242,13 +244,15 @@ const result = await apiPost<ApiResponse<Data>>(env.baseUrlRainlogger, '/v1/endp
 - **`getRainLogsByDay(date, location, realReading)`** — GET rain logs for a specific day
 - **`getRainLogsByMonth(month, year, location, realReading)`** — GET rain logs for a specific month (computes dateFrom/dateTo from month+year). `realReading` query param is only sent when `true` (omitted when `false`)
 - **`postRainLog(rainlog)`** — POST a new rain log (accepts `Omit<RainLog, '_id' | 'timestamp' | 'loggedBy'>`)
+- **`updateRainLog(rainlog)`** — PUT update an existing rain log (accepts full `RainLog` object). Returns `ApiResponse<{ rainlog: RainLog }>`
 - GET functions use `env.baseUrlRainlogger` as base URL, 3 retries with 2s base delay
-- Return type: `ApiResponse<{ rainlogs: RainLog[] }>` for GETs, `ApiResponse<{ rainlog: RainLog }>` for POST
+- Return type: `ApiResponse<{ rainlogs: RainLog[] }>` for GETs, `ApiResponse<{ rainlog: RainLog }>` for POST/PUT
 
 ### API Endpoints (rainlogger-back)
 
 - **Get rain logs**: `GET {BASE_URL_RAINLOGGER}/v1/rainlogger/rainlog/filters` — query params: `dateFrom`, `dateTo`, `date`, `location`, `realReading`
 - **Create rain log**: `POST {BASE_URL_RAINLOGGER}/v1/rainlogger/rainlog` — body: `{ date, measurement, realReading, location, records? }`
+- **Update rain log**: `PUT {BASE_URL_RAINLOGGER}/v1/rainlogger/rainlog` — body: full `RainLog` object (date formatted as YYYY-MM-DD), returns `{ status, message, data: { rainlog } }`
 
 ## useApi Hook
 
@@ -387,10 +391,9 @@ app/components/Navbar/Navbar.test.tsx
 ```
 
 ### MSW Mock Structure
-- **Mock data**: `app/test/mocks/mockData.json` - mock API responses (user, loginResponse, isLoggedInResponse, authErrorResponse)
-- **Mock data (directory)**: `app/test/mocks/mockData/` - larger mock responses as individual JSON files (e.g., `rainMontlyData.json` for monthly rain logs)
+- **Mock data (directory)**: `app/test/mocks/mockData/` - mock response JSON files (e.g., `authData.json` for auth responses, `rainMontlyData.json` for monthly rain logs)
 - **Handlers**: `app/test/mocks/handlers/authHandlers.ts` - MSW v2 handlers for auth endpoints
-- **Handlers**: `app/test/mocks/handlers/rainlogHandlers.ts` - MSW v2 handlers for rainlogger endpoints (GET filters, POST rainlog)
+- **Handlers**: `app/test/mocks/handlers/rainlogHandlers.ts` - MSW v2 handlers for rainlogger endpoints (GET filters, POST rainlog, PUT rainlog)
 - **Handler aggregator**: `app/test/mocks/handlers.ts` - combines all handler groups via spread
 - **Server**: `app/test/mocks/server.ts` - MSW `setupServer` instance
 
@@ -473,7 +476,7 @@ function MyComponent() {
 - Calling `showAlert` while an alert is visible replaces it with the new one (no queue/stacking)
 - Clickaway does not dismiss the alert (standard MUI pattern); close button and auto-dismiss do
 - **Login page** keeps its own inline `Alert` component (contextual to the form, not global)
-- Translation keys: `components.alert.newLog.success`, `components.alert.newLog.error`, `components.alert.watchLogs.error`, `components.alert.generic.error`, `components.alert.generic.networkError`
+- Translation keys: `components.alert.newLog.success`, `components.alert.newLog.error`, `components.alert.updateLog.success`, `components.alert.updateLog.error`, `components.alert.watchLogs.error`, `components.alert.generic.error`, `components.alert.generic.networkError`
 - The `useApi` hook supports an `onError` callback via `UseApiOptions` to integrate with the alert system for data-fetching scenarios
 
 ## Important Notes
@@ -487,4 +490,5 @@ function MyComponent() {
 - **Provider placement in `root.tsx`**: `ThemeProvider` > `AlertProvider` > `UserProvider` > `<Outlet />`. `ErrorBoundary` is intentionally outside all providers
 - **i18n initialization**: Side-effect import `'./ui/i18n/i18n'` must be first import in `root.tsx` (before React imports) to ensure i18n is ready before rendering
 - **Component structure**: `Layout`, `ErrorBoundary`, and `AuthGuard` are separate files in `app/ui/`. `Layout` and `ErrorBoundary` are re-exported from `root.tsx` for React Router framework mode. `AuthGuard` is referenced as a layout route in `app/routes.ts`
-- **Zod + react-hook-form**: Don't use `z.coerce.number()` with react-hook-form — it creates an `unknown` input type that conflicts with the form resolver. Instead, keep number fields as strings with `.refine()` for numeric validation (same pattern used in `newLogValidationSchema.ts` and `watchLogsValidationSchema.ts`)
+- **Zod + react-hook-form**: Don't use `z.coerce.number()` with react-hook-form — it creates an `unknown` input type that conflicts with the form resolver. Instead, keep number fields as strings with `.refine()` for numeric validation (same pattern used in `newLogValidationSchema.ts`, `watchLogsValidationSchema.ts`, and `updateLogValidationSchema.ts`)
+- **Typing `vi.fn()` mocks**: When mock functions are passed as props, type them to match the prop signature (e.g., `vi.fn<() => void>()` for `onClose`, `vi.fn<() => Promise<void>>()` for `onDataChange`). Untyped `vi.fn()` causes `pnpm types` errors

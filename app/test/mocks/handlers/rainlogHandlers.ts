@@ -50,5 +50,22 @@ export const rainlogHandlers = [
       },
       { status: 201 }
     );
+  }),
+
+  // PUT /v1/rainlogger/rainlog
+  http.put(`${process.env.BASE_URL_RAINLOGGER}/v1/rainlogger/rainlog`, async ({ request }) => {
+    const authHeader = request.headers.get('Authorization');
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return HttpResponse.json({ status: 'Unauthorized' }, { status: 401 });
+    }
+
+    const body = await request.json();
+
+    return HttpResponse.json({
+      status: 'success',
+      message: 'Rainlog updated successfully',
+      data: { rainlog: body }
+    });
   })
 ];

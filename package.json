@@ -9,12 +9,7 @@
   "engines": {
     "node": ">=24.0.0"
   },
-  "packageManager": "pnpm@10.28.2",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild"
-    ]
-  },
+  "packageManager": "pnpm@10.29.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/macolmenerori/rainlogger-front.git"
@@ -83,5 +78,13 @@
     "react-router": "^7.13.0",
     "recharts": "^3.7.0",
     "zod": "^4.3.6"
+  },
+  "pnpm": {
+    "overrides": {
+      "qs": "6.14.2"
+    },
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }
