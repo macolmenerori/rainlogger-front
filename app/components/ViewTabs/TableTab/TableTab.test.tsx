@@ -86,7 +86,7 @@ describe('TableTab', () => {
       consoleSpy.mockRestore();
     });
 
-    it('logs update with correct id on edit button click', async () => {
+    it('opens update modal on edit button click', async () => {
       const user = userEvent.setup();
       render(<TableTab data={mockData} />);
 
@@ -96,7 +96,7 @@ describe('TableTab', () => {
       const buttons = within(firstDataRow).getAllByRole('button');
       await user.click(buttons[0]); // Edit is the first button
 
-      expect(consoleSpy).toHaveBeenCalledWith('Update:', '698444e22823b85ab6af9d8a');
+      expect(screen.getByText(i18n.t('components.updateLogModal.title'))).toBeInTheDocument();
     });
 
     it('logs delete with correct id on delete button click', async () => {

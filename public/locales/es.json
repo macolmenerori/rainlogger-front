@@ -115,6 +115,18 @@
     "backButton": {
       "label": "Volver"
     },
+    "updateLogModal": {
+      "title": "Actualizar Registro",
+      "measurementLabel": "Cantidad (mm)",
+      "realReadingLabel": "Lectura Real",
+      "cancelButton": "Cancelar",
+      "updateButton": "Actualizar",
+      "errors": {
+        "measurementRequired": "La medición es obligatoria",
+        "measurementMin": "La medición debe ser 0 o superior",
+        "measurementDecimals": "Máximo 2 decimales permitidos"
+      }
+    },
     "alert": {
       "newLog": {
         "success": "Registro de lluvia guardado correctamente",

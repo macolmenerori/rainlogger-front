@@ -115,6 +115,18 @@
     "backButton": {
       "label": "Return"
     },
+    "updateLogModal": {
+      "title": "Update Log",
+      "measurementLabel": "Amount (mm)",
+      "realReadingLabel": "Real Reading",
+      "cancelButton": "Cancel",
+      "updateButton": "Update",
+      "errors": {
+        "measurementRequired": "Measurement is required",
+        "measurementMin": "Measurement must be 0 or greater",
+        "measurementDecimals": "Maximum 2 decimal places allowed"
+      }
+    },
     "alert": {
       "newLog": {
         "success": "Rain log saved successfully",
