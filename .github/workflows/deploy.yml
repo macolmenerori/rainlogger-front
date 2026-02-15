@@ -22,4 +22,4 @@ jobs:
       - name: Install lftp for deployment
         run: sudo apt install lftp
       - name: Deploy
-        run: lftp -e "set ftp:ssl-allow no;mirror -R dist rainlogger" -u "${{ secrets.FTP_USERNAME }}","${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOSTNAME }}"
+        run: lftp -e "set ftp:ssl-allow no;mirror -R dist/client rainlogger" -u "${{ secrets.FTP_USERNAME }}","${{ secrets.FTP_PASSWORD }}" "${{ secrets.FTP_HOSTNAME }}"
