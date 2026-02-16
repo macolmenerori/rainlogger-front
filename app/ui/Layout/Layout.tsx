@@ -30,10 +30,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="theme-color" content="#1a2332" />
         <meta name="description" content="Log rainfall amounts accurately with Rainlogger." />
         <link rel="manifest" href="/site.webmanifest" />
-        <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg" />
-        <link rel="icon" type="image/png" sizes="96x96" href="/icons/favicon-96x96.png" />
-        <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+        <link rel="icon" type="image/svg+xml" href="/img/favicon.svg" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon-96x96.png" />
+        <link rel="icon" type="image/x-icon" href="/img/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
         <Meta />
         <Links />
         <title>Rainlogger</title>

@@ -19,6 +19,11 @@ jobs:
         run: pnpm i --frozen-lockfile
       - name: Build
         run: CI=false pnpm build
+        env:
+          BASE_URL_AUTH: ${{ vars.BASE_URL_AUTH }}
+          BASE_URL_RAINLOGGER: ${{ vars.BASE_URL_RAINLOGGER }}
+          LOCATION_NAMES: ${{ vars.LOCATION_NAMES }}
+          NODE_ENV: production
       - name: Install lftp for deployment
         run: sudo apt install lftp
       - name: Deploy
