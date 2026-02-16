@@ -18,6 +18,20 @@ import { ThemeProvider } from '@/ui/theme/ThemeContext';
 // Re-export Layout and ErrorBoundary
 export { ErrorBoundary, Layout };
 
+export function HydrateFallback() {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        backgroundColor: '#1a2332'
+      }}
+    />
+  );
+}
+
 export default function App() {
   return (
     <ThemeProvider>

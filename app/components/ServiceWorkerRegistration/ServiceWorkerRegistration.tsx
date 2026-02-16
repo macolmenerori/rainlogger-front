@@ -6,9 +6,7 @@ export default function ServiceWorkerRegistration() {
       import('virtual:pwa-register')
         .then(({ registerSW }) => {
           registerSW({
-            onRegistered(registration) {
-              console.log('SW registered:', registration);
-            },
+            onRegistered() {},
             onRegisterError(error) {
               console.error('SW registration error:', error);
             }
