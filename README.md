@@ -34,11 +34,54 @@ Frontend application for **RainLogger**, a rainfall monitoring system. Built wit
 
 ## Getting Started
 
+### Demo
+
+A Docker Compose setup is included to run the **full stack** (MongoDB + auth service + backend + frontend) with a single command, pre-loaded with sample data.
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/macolmenerori/rainlogger-front.git
+   cd rainlogger-front/docker
+   ```
+
+2. Build and start all services:
+
+   ```bash
+   docker compose up --build
+   ```
+
+3. Open `http://localhost` and log in with:
+   - **Email:** `admin@admin.com`
+   - **Password:** `administrator`
+
+The compose stack includes:
+
+| Service            | Port  | Description                   |
+| ------------------ | ----- | ----------------------------- |
+| `rainlogger-db`    | 27017 | MongoDB with seeded demo data |
+| `opensesame-back`  | 8080  | Authentication API            |
+| `rainlogger-back`  | 8082  | RainLogger API                |
+| `rainlogger-front` | 80    | Frontend (Nginx)              |
+
+> Sample rain log entries for January 2026 at location "Castraz" are pre-loaded. To reset the data, run `docker compose down` and start again.
+
 ### With Docker
 
 1. Set up and configure [opensesame-back](https://github.com/macolmenerori/opensesame-back) for authentication
 
+   ```bash
+   docker build -t opensesame-back:latest .
+   docker network create opensesame-network
+   docker run --network opensesame-network -p 8080:8080 --name opensesame-back opensesame-back
+   ```
+
 2. Set up and configure [rainlogger-back](https://github.com/macolmenerori/rainlogger-back)
+
+   ```bash
+   docker build -t rainlogger-back:latest .
+   docker run --network opensesame-network -p 8082:8082 --name rainlogger-back rainlogger-back
+   ```
 
 3. Clone the repository:
 
@@ -53,7 +96,7 @@ Frontend application for **RainLogger**, a rainfall monitoring system. Built wit
 
    ```bash
    docker build -t rainlogger-front:latest .
-   docker run -p 80:80 --name rainlogger-front rainlogger-front
+   docker run --network opensesame-network -p 80:80 --name rainlogger-front rainlogger-front
    ```
 
    The application will be available at `http://localhost`.
