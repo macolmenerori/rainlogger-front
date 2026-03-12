@@ -75,10 +75,7 @@ export default function GraphTab({ data, month, year }: GraphTabProps) {
               color: '#fff'
             }}
             labelFormatter={(day) => `${t('pages.watchLogs.graph.tooltipDay')} ${day}`}
-            formatter={(value: number | undefined) => [
-              value ?? 0,
-              t('pages.watchLogs.graph.tooltipMeasurement')
-            ]}
+            formatter={(value) => [value ?? 0, t('pages.watchLogs.graph.tooltipMeasurement')]}
             cursor={{ fill: 'rgba(65, 195, 251, 0.1)' }}
           />
           <Bar dataKey="measurement" fill="#41c3fb" radius={[4, 4, 0, 0]} maxBarSize={20} />
