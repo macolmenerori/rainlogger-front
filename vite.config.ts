@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+
 import { reactRouter } from '@react-router/dev/vite';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vite';
@@ -6,6 +8,10 @@ import dotenv from 'dotenv';
 
 // Load environment variables from .env file
 dotenv.config();
+
+const pkg = JSON.parse(readFileSync('./package.json', 'utf-8')) as {
+  version: string;
+};
 
 export default defineConfig({
   plugins: [
@@ -43,6 +49,7 @@ export default defineConfig({
     'import.meta.env.BASE_URL_AUTH': JSON.stringify(process.env.BASE_URL_AUTH),
     'import.meta.env.BASE_URL_RAINLOGGER': JSON.stringify(process.env.BASE_URL_RAINLOGGER),
     'import.meta.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-    'import.meta.env.LOCATION_NAMES': JSON.stringify(process.env.LOCATION_NAMES)
+    'import.meta.env.LOCATION_NAMES': JSON.stringify(process.env.LOCATION_NAMES),
+    __APP_VERSION__: JSON.stringify(pkg.version)
   }
 });
