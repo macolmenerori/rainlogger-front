@@ -108,7 +108,7 @@ export default function UpdateLogModal({ open, log, onClose, onDataChange }: Upd
             label={t('components.updateLogModal.measurementLabel')}
             slotProps={{
               inputLabel: { shrink: true },
-              input: { inputProps: { step: '0.01' } }
+              htmlInput: { step: '0.01' }
             }}
             error={!!errors.measurement}
             helperText={errors.measurement?.message}

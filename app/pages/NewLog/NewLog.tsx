@@ -137,7 +137,7 @@ export default function NewLog() {
             fullWidth
             type="number"
             label={t('pages.newLog.form.measurementLabel')}
-            slotProps={{ inputLabel: { shrink: true }, input: { inputProps: { step: '0.01' } } }}
+            slotProps={{ inputLabel: { shrink: true }, htmlInput: { step: '0.01' } }}
             error={!!errors.measurement}
             helperText={errors.measurement?.message}
             {...register('measurement')}
