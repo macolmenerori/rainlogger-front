@@ -66,7 +66,8 @@ describe('AlertContext', () => {
 
     const alert = screen.getByRole('alert');
     expect(alert).toHaveTextContent('Something failed');
-    expect(alert).toHaveClass('MuiAlert-filledError');
+    expect(alert).toHaveClass('MuiAlert-filled');
+    expect(alert).toHaveClass('MuiAlert-colorError');
   });
 
   it('closes the alert when the close button is clicked', async () => {
