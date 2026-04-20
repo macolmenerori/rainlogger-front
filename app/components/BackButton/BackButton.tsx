@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 
 interface BackButtonProps {
   to: string;
