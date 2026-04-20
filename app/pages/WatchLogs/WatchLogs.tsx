@@ -4,7 +4,11 @@ import { useTranslation } from 'react-i18next';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import TableRowsIcon from '@mui/icons-material/TableRows';
-import { Box, CircularProgress, Tab, Tabs, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import Typography from '@mui/material/Typography';
 
 import type { Route } from './+types/WatchLogs';
 

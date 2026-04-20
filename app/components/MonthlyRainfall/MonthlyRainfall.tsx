@@ -2,7 +2,9 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
-import { Box, Paper, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 
 import type { RainLog } from '@/types/rainlogger';
 
