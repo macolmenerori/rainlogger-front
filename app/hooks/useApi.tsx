@@ -47,6 +47,7 @@ export function useApi<T>(
 
   useEffect(() => {
     if (!skip) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       fetchData();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,6 +55,7 @@ export function useApi<T>(
 
   useEffect(() => {
     if (skip) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setData(null);
       setError(null);
       setLoading(false);
