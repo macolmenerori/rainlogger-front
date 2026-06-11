@@ -21,6 +21,10 @@ updates:
         patterns:
           - 'react*'
           - '@types/react*'
+      react-router-ecosystem:
+        patterns:
+          - 'react-router'
+          - '@react-router/*'
       mui-ecosystem:
         patterns:
           - '@mui/*'
