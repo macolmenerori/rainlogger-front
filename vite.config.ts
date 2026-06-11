@@ -14,6 +14,21 @@ const pkg = JSON.parse(readFileSync('./package.json', 'utf-8')) as {
 };
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      // MUI v9.1.0 imports 'react-transition-group/TransitionGroupContext' (bare subpath).
+      // RTG 4.x has no `exports` field so Node ESM can't resolve directory imports.
+      // Alias to the explicit ESM file; ssr.noExternal ensures the server build
+      // routes MUI through Vite's resolver where this alias applies.
+      'react-transition-group/TransitionGroupContext':
+        'react-transition-group/esm/TransitionGroupContext.js'
+    }
+  },
+  ssr: {
+    // Force @mui/material to be bundled (not externalized) in the server build so
+    // Vite's resolver handles the react-transition-group subpath lookup correctly.
+    noExternal: ['@mui/material']
+  },
   plugins: [
     reactRouter(),
     viteTsconfigPaths(),
