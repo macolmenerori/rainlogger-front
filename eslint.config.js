@@ -1,10 +1,9 @@
+import eslintReact from '@eslint-react/eslint-plugin';
 import eslint from '@eslint/js';
 import prettierConfig from 'eslint-config-prettier';
 import jestDomPlugin from 'eslint-plugin-jest-dom';
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y';
 import prettierPlugin from 'eslint-plugin-prettier';
-import reactJsxRuntime from 'eslint-plugin-react/configs/jsx-runtime.js';
-import reactRecommended from 'eslint-plugin-react/configs/recommended.js';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import simpleImportSortPlugin from 'eslint-plugin-simple-import-sort';
 import testingLibraryPlugin from 'eslint-plugin-testing-library';
@@ -13,8 +12,7 @@ import tseslint from 'typescript-eslint';
 export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
-  reactRecommended,
-  reactJsxRuntime,
+  eslintReact.configs['recommended-typescript'],
   {
     plugins: {
       'react-hooks': reactHooksPlugin,
@@ -37,7 +35,6 @@ export default tseslint.config(
           aspects: ['invalidHref', 'preferButton']
         }
       ],
-      'react/prop-types': 'off', // Because TypeScript already checks for this
       'valid-typeof': 'warn',
       'simple-import-sort/exports': 'error',
       'simple-import-sort/imports': [
@@ -66,7 +63,7 @@ export default tseslint.config(
       'prettier/prettier': 'error' // Enable prettier errors as ESLint errors
     },
     settings: {
-      react: {
+      'react-x': {
         version: 'detect'
       }
     },
