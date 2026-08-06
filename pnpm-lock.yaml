@@ -115,8 +115,8 @@ importers:
         specifier: ^10.1.8
         version: 10.1.8(eslint@9.39.2)
       eslint-plugin-jest-dom:
-        specifier: ^5.6.0
-        version: 5.6.0(@testing-library/dom@10.4.1)(eslint@9.39.2)
+        specifier: ^5.10.1
+        version: 5.10.1(@testing-library/dom@10.4.1)(eslint@9.39.2)
       eslint-plugin-jsx-a11y:
         specifier: ^6.10.2
         version: 6.10.2(eslint@9.39.2)
@@ -2545,8 +2545,8 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
-  eslint-plugin-jest-dom@5.6.0:
-    resolution: {integrity: sha512-XPiFH5COhV2NgMP2lkGs1rDUBlbzwuzWIMddTrb4ynbRu4yZdryWMzts2lQqoZIUlA3//cPGFW8FwYUYoRyswg==}
+  eslint-plugin-jest-dom@5.10.1:
+    resolution: {integrity: sha512-IIJdzbACbhJUJyMAqpA9E9gxp1Gv29TeQ3DtL+pepwP8Oq2WiqjOB2HbnEIs23h0ewdKIZRDI56yLro2eUO+DA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0, npm: '>=6', yarn: '>=1'}
     peerDependencies:
       '@testing-library/dom': ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -7097,9 +7097,8 @@ snapshots:
     dependencies:
       eslint: 9.39.2
 
-  eslint-plugin-jest-dom@5.6.0(@testing-library/dom@10.4.1)(eslint@9.39.2):
+  eslint-plugin-jest-dom@5.10.1(@testing-library/dom@10.4.1)(eslint@9.39.2):
     dependencies:
-      '@babel/runtime': 7.29.7
       eslint: 9.39.2
       requireindex: 1.2.0
     optionalDependencies:
