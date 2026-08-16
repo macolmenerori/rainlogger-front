@@ -1,5 +1,11 @@
 name: Deployment
 
+env:
+  NODE_ENV: ${{ vars.NODE_ENV }}
+  BASE_URL_AUTH: ${{ vars.BASE_URL_AUTH }}
+  BASE_URL_RAINLOGGER: ${{ vars.BASE_URL_RAINLOGGER }}
+  LOCATION_NAMES: ${{ vars.LOCATION_NAMES }}
+
 on: workflow_dispatch
 
 jobs:
