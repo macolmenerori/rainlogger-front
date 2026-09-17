@@ -2,9 +2,5 @@ allowBuilds:
   esbuild: true
   msw: true
 
-minimumReleaseAgeExclude:
-  - fast-uri@3.1.7
-
 overrides:
-  'fast-uri': '3.1.7'
-  'qs': '6.16.0'
+  'morgan': '1.12.1'
