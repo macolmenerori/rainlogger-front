@@ -9,7 +9,7 @@
   "engines": {
     "node": ">=24.0.0"
   },
-  "packageManager": "pnpm@12.4.2",
+  "packageManager": "pnpm@12.6.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/macolmenerori/rainlogger-front.git"
@@ -65,7 +65,7 @@
     "@emotion/styled": "^11.14.1",
     "@fontsource/roboto": "^5.3.0",
     "@hookform/resolvers": "^5.9.1",
-    "@macolmenerori/component-library": "^1.5.0",
+    "@macolmenerori/component-library": "^1.5.1",
     "@mui/icons-material": "^9.4.0",
     "@mui/material": "^9.4.0",
     "@react-router/node": "^8.4.0",
