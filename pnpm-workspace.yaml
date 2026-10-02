@@ -2,8 +2,6 @@ allowBuilds:
   esbuild: true
   msw: true
 
-minimumReleaseAgeExclude:
-  - '@macolmenerori/component-library@1.5.1'
-
 overrides:
   'morgan': '1.12.1'
+  'fast-uri': '3.1.8'
