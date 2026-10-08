@@ -3,5 +3,5 @@ allowBuilds:
   msw: true
 
 overrides:
-  'morgan': '1.12.1'
-  'fast-uri': '3.1.8'
+  'proxy-addr': '2.0.8'
+  'compression': '1.8.2'
