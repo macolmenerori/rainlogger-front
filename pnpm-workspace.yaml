@@ -3,5 +3,6 @@ allowBuilds:
   msw: true
 
 overrides:
-  'proxy-addr': '2.0.8'
-  'compression': '1.8.2'
+  'fast-uri': '4.2.3'
+  'body-parser': '2.4.0'
+  'qs': '6.17.0'
