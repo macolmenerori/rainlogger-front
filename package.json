@@ -31,7 +31,7 @@
   "devDependencies": {
     "@eslint-react/eslint-plugin": "^5.28.8",
     "@eslint/js": "^10.0.1",
-    "@react-router/dev": "^8.5.0",
+    "@react-router/dev": "^8.5.1",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.8",
@@ -78,7 +78,7 @@
     "react-dom": "^19.3.1",
     "react-hook-form": "^7.90.0",
     "react-i18next": "^17.1.0",
-    "react-router": "^8.5.0",
+    "react-router": "^8.5.1",
     "recharts": "^3.10.1",
     "zod": "^4.6.7"
   }
