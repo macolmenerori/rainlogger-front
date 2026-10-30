@@ -36,10 +36,13 @@ export function AlertProvider({ children }: { children: React.ReactNode }) {
     []
   );
 
-  const handleClose = useCallback((_event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') return;
-    setAlert((prev) => ({ ...prev, open: false }));
-  }, []);
+  const handleClose = useCallback(
+    (_event?: React.SyntheticEvent | Event | null, reason?: string) => {
+      if (reason === 'clickaway') return;
+      setAlert((prev) => ({ ...prev, open: false }));
+    },
+    []
+  );
 
   const value = useMemo(() => ({ showAlert }), [showAlert]);
 
