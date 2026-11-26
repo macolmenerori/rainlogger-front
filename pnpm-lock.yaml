@@ -275,8 +275,8 @@ importers:
         specifier: ^10.1.8
         version: 10.1.8(eslint@9.39.2(supports-color@7.2.0))
       eslint-plugin-jest-dom:
-        specifier: ^5.10.1
-        version: 5.10.1(@testing-library/dom@10.4.1)(eslint@9.39.2(supports-color@7.2.0))
+        specifier: ^5.11.0
+        version: 5.11.0(@testing-library/dom@10.4.1)(eslint@9.39.2(supports-color@7.2.0))
       eslint-plugin-jsx-a11y:
         specifier: ^6.10.2
         version: 6.10.2(eslint@9.39.2(supports-color@7.2.0))
@@ -2739,8 +2739,8 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
-  eslint-plugin-jest-dom@5.10.1:
-    resolution: {integrity: sha512-IIJdzbACbhJUJyMAqpA9E9gxp1Gv29TeQ3DtL+pepwP8Oq2WiqjOB2HbnEIs23h0ewdKIZRDI56yLro2eUO+DA==}
+  eslint-plugin-jest-dom@5.11.0:
+    resolution: {integrity: sha512-w6ejV2uyb9vLpII6ga8J62IKjHIbU68V4cBWkqNylTXxAPn5uAJ71OlLJhZ9kJF2UJZtAQSxcgH/SR0HjxnHtg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0, npm: '>=6', yarn: '>=1'}
     peerDependencies:
       '@testing-library/dom': ^8.0.0 || ^9.0.0 || ^10.0.0
@@ -7194,7 +7194,7 @@ snapshots:
     dependencies:
       eslint: 9.39.2(supports-color@7.2.0)
 
-  eslint-plugin-jest-dom@5.10.1(@testing-library/dom@10.4.1)(eslint@9.39.2(supports-color@7.2.0)):
+  eslint-plugin-jest-dom@5.11.0(@testing-library/dom@10.4.1)(eslint@9.39.2(supports-color@7.2.0)):
     dependencies:
       eslint: 9.39.2(supports-color@7.2.0)
       requireindex: 1.2.0
